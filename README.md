@@ -97,5 +97,12 @@
 
 ---
 
+## Repo 阅读顺序
+1. hackathon/Agent教育工具/basic info
+2. hackathon/Agent教育工具/开发/exec_plan.docx
+3. module开发案
+4. hackathon/Agent科研工具：项目介绍&任务
+---
+
 ## 总结
 明天的 hackathon 会先介绍 **Education System Upgrade** 的 workflow design、系统结构与 MVP 边界，然后立即进入具体开发，目标是在产出一个可演示的 MVP 级别产品；与此同时，也会并行推进 **Idea2Paper** 的学习、试用、评估与 upgrade direction analysis。
