@@ -1,0 +1,129 @@
+{
+  "__comment__": "Copy this file to `i2p_config.json` (repo root). It is for NON-sensitive settings. Priority: shell env > .env > i2p_config.json > defaults. Secrets (e.g. LLM_API_KEY) should go to `.env`, not here.",
+  "logging": {
+    "__comment__": "Run logging writes a folder per run: log/run_YYYYMMDD_HHMMSS_<pid>_<rand>/. Set enable=false to disable logging entirely.",
+    "enable": true,
+    "dir": "log",
+    "max_text_chars": 20000
+  },
+  "critic": {
+    "__comment__": "Blind Judge + τ-calibrated critic. strict_json=true means: invalid JSON -> retry -> still invalid => fail the run (no silent fallback).",
+    "strict_json": true,
+    "json_retries": 2,
+    "tau_path": "Paper-KG-Pipeline/output/judge_tau.json",
+    "tau_default": 1.0,
+    "tau_methodology": 1.0,
+    "tau_novelty": 1.4,
+    "tau_storyteller": 1.0,
+    "coach_enable": true,
+    "coach_temperature": 0.3,
+    "coach_max_tokens": 4096
+  },
+  "pass": {
+    "__comment__": "Pattern-aware pass rule based on the pattern's full real score10 distribution (NOT anchors). Default scheme: 2 of 3 roles >= q75 and avg >= q50.",
+    "mode": "two_of_three_q75_and_avg_ge_q50",
+    "min_pattern_papers": 20,
+    "fallback": "global",
+    "fixed_score": 7.0
+  },
+  "anchors": {
+    "__comment__": "Anchor selection + deterministic scoring knobs. densify_enable=false skips adaptive densify (no Round2), reducing LLM calls/latency. Usually keep defaults unless you know what you're doing.",
+    "quantiles": [0.05, 0.15, 0.25, 0.35, 0.5, 0.65, 0.75, 0.85, 0.95],
+    "max_initial": 11,
+    "max_exemplars": 2,
+    "bucket_size": 1.0,
+    "bucket_count": 3,
+    "grid_step": 0.01,
+    "densify_loss_threshold": 0.05,
+    "densify_min_avg_conf": 0.35,
+    "densify_enable": false
+  },
+  "llm": {
+    "__comment__": "LLM endpoint/model settings. The API key is read from env var LLM_API_KEY in `.env` (do not put it here).",
+    "provider": "openai_compatible_chat",
+    "base_url": "https://api.openai.com/v1",
+    "api_url": "",
+    "model": "gpt-4o-mini",
+    "anthropic_version": "2023-06-01",
+    "extra_headers": {},
+    "extra_body": {},
+    "temperature": {
+      "__comment__": "Optional per-stage LLM temperatures. Defaults preserve current behavior.",
+      "default": 0.7,
+      "idea_packaging_parse": 0.0,
+      "idea_packaging_pattern_guided": 0.3,
+      "idea_packaging_judge": 0.0,
+      "story_generator": 0.7,
+      "story_generator_rewrite": 0.3,
+      "story_reflector": 0.5,
+      "pattern_selector": 0.3,
+      "idea_fusion": 0.7,
+      "idea_fusion_stage2": 0.8,
+      "idea_fusion_stage3": 0.9,
+      "critic_main": 0.0,
+      "critic_repair": 0.0
+    }
+  },
+  "idea": {
+    "__comment__": "Idea Packaging (pattern-guided, double recall). Default off; enables structured idea brief + retrieval query.",
+    "packaging_enable": true,
+    "packaging_topn_patterns": 5,
+    "packaging_max_exemplar_papers": 8,
+    "packaging_candidate_k": 3,
+    "packaging_select_mode": "llm_then_recall",
+    "packaging_force_en_query": true
+  },
+  "embedding": {
+    "__comment__": "Embedding endpoint/model settings (non-sensitive). Secret EMBEDDING_API_KEY should stay in .env. Recommended: set index.dir_mode=auto_profile (or env I2P_INDEX_DIR_MODE) to auto-manage per-embedding index dirs by model only, e.g. Paper-KG-Pipeline/output/novelty_index__{model}.",
+    "provider": "openai_compatible",
+    "api_url": "https://api.openai.com/v1/embeddings",
+    "model": "text-embedding-3-large"
+  },
+  "results": {
+    "__comment__": "Aggregate final artifacts to repo-root results/run_.../ for better UX. Results are always copied (no symlinks).",
+    "enable": true,
+    "dir": "results",
+    "keep_log": true
+  },
+  "verification": {
+    "__comment__": "Phase 4 final collision check. enable=false will skip verification and disable pivot triggered by collision. Recommendation: set collision_threshold between novelty.medium_th and novelty.high_th (e.g. 0.82~0.88). Higher = fewer false positives but may miss near-duplicates; lower = more pivots.",
+    "enable": true,
+    "collision_threshold": 0.88
+  },
+  "index": {
+    "__comment__": "Auto-prepare required indexes before running the pipeline. dir_mode=manual (default) uses fixed index_dir; dir_mode=auto_profile derives dirs from embedding model only (sanitized).",
+    "dir_mode": "auto_profile",
+    "auto_prepare": true,
+    "allow_build": true
+  },
+  "recall": {
+    "__comment__": "Persist recall candidates (Top ideas/domains/papers + final Top patterns) into pipeline_result.json and optionally events.jsonl for audit/debug. Optional: enable subdomain taxonomy to canonicalize/merge subdomains and reduce long-tail bias.",
+    "audit_enable": true,
+    "audit_topn": 50,
+    "audit_snippet_chars": 240,
+    "audit_in_events": true,
+    "embed_batch_size": 32,
+    "embed_max_retries": 3,
+    "embed_sleep_sec": 0.5,
+    "use_offline_index": true,
+    "subdomain_taxonomy_enable": true,
+    "subdomain_taxonomy_path": "",
+    "subdomain_taxonomy_stoplist_mode": "drop"
+  },
+  "novelty": {
+    "__comment__": "Local novelty check against nodes_paper.json (ICLR 2025) + pivot on high similarity. Default: do NOT auto-build index during run; build offline first.",
+    "enable": true,
+    "top_k": 100,
+    "high_th": 0.88,
+    "medium_th": 0.82,
+    "auto_build_index": true,
+    "index_batch_size": 32,
+    "index_resume": true,
+    "index_max_retries": 3,
+    "index_sleep_sec": 1.0,
+    "action": "pivot",
+    "max_pivots": 2,
+    "require_embedding": true,
+    "report_in_output": false
+  }
+}

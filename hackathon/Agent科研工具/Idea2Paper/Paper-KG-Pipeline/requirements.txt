@@ -1,0 +1,15 @@
+# Knowledge Graph Pipeline Dependencies
+
+# 核心依赖
+networkx>=2.8
+numpy>=1.21
+scikit-learn>=1.0
+requests>=2.28
+tqdm>=4.67.2
+openai>=1.0
+
+# KG 构建 (generate_clusters.py)
+sentence-transformers>=2.2
+umap-learn>=0.5
+hdbscan>=0.8
+scipy>=1.9
