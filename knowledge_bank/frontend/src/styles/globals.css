@@ -387,9 +387,13 @@ button {
   background: #7e8c9c;
 }
 
-.graph-surface {
-  position: relative;
-  min-height: 640px;
+.graph-surface > div {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.graph-surface canvas {
+  display: block;
 }
 
 .node-tooltip {
@@ -604,4 +608,20 @@ button {
   .toolbar-control select {
     min-width: 0;
   }
+}
+.graph-surface {
+  position: relative;
+  min-height: 620px;
+  height: 620px;
+  overflow: hidden;
+}
+
+.graph-surface > div {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 620px;
+}
+
+.graph-surface canvas {
+  display: block;
 }

@@ -25,6 +25,8 @@ function buildElements(
   const normalizedSearch = searchQuery.trim().toLowerCase();
   const neighborIds = new Set<string>();
   const incidentEdgeIds = new Set<string>();
+  const sourceNodeIds = nodes.filter((node) => node.type === "source").map((node) => node.id);
+  const knowledgeNodeIds = nodes.filter((node) => node.type === "knowledge_unit").map((node) => node.id);
 
   if (selectedNodeId) {
     for (const edge of edges) {
@@ -65,9 +67,20 @@ function buildElements(
         status: node.status ?? "",
         subtitle: node.type === "source" ? node.sourceType ?? "source" : node.pedagogicalRole ?? "knowledge unit",
       },
+      position:
+        node.type === "source"
+          ? {
+              x: 120,
+              y: 120 + sourceNodeIds.indexOf(node.id) * 110,
+            }
+          : {
+              x: 340 + (knowledgeNodeIds.indexOf(node.id) % 6) * 170,
+              y: 120 + Math.floor(knowledgeNodeIds.indexOf(node.id) / 6) * 130,
+            },
       classes: classes.join(" "),
     };
   });
+
 
   const edgeElements = edges.map((edge) => {
     const classes = [edge.type];
@@ -146,19 +159,12 @@ const stylesheet = [
     style: {
       "border-width": 3,
       "border-color": "#f3f7fc",
-      "shadow-color": "#95d9ff",
-      "shadow-blur": 18,
-      "shadow-opacity": 0.55,
       "z-index": 10,
     },
   },
   {
     selector: "node.neighbor",
-    style: {
-      "shadow-color": "#7d95ad",
-      "shadow-blur": 10,
-      "shadow-opacity": 0.35,
-    },
+    style: {},
   },
   {
     selector: "node.search-hit",
@@ -272,8 +278,12 @@ export function KnowledgeGraph(props: KnowledgeGraphProps) {
     if (!cy) {
       return;
     }
-    cy.layout({ name: "cose", animate: false, fit: true, padding: 32 }).run();
+    requestAnimationFrame(() => {
+      cy.resize();
+      cy.layout({ name: "cose", animate: false, fit: true, padding: 32 }).run();
+    });
   }, [nodes.length, edges.length]);
+
 
   useEffect(() => {
     const cy = cyRef.current;
@@ -281,7 +291,7 @@ export function KnowledgeGraph(props: KnowledgeGraphProps) {
       return;
     }
     const selected = cy.getElementById(selectedNodeId);
-    if (!selected.nonempty()) {
+    if (!selected || selected.length === 0 || selected.empty()) {
       return;
     }
     cy.animate({
@@ -324,15 +334,16 @@ export function KnowledgeGraph(props: KnowledgeGraphProps) {
       <div className="graph-surface">
         {nodes.length ? (
           <CytoscapeComponent
+            key={`${nodes.length}-${edges.length}-${selectedNodeId ?? "none"}-${searchQuery}`}
             elements={elements}
             style={{ width: "100%", height: "100%" }}
             stylesheet={stylesheet}
+            layout={{ name: "preset", fit: true, padding: 48 }}
             cy={(cy: Core) => {
               cyRef.current = cy;
             }}
             minZoom={0.35}
             maxZoom={2.2}
-            wheelSensitivity={0.24}
           />
         ) : (
           <div className="empty-state">
