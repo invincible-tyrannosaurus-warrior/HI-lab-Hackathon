@@ -1,0 +1,9 @@
+{
+  "source_id": "src_d608f4f6",
+  "source_type": "pdf",
+  "chunk_count": 528,
+  "chunk_size": 1000,
+  "chunk_overlap": 100,
+  "index_batch_size": 16,
+  "extracted_char_count": 474810
+}

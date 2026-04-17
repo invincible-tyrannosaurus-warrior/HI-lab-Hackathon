@@ -1,0 +1,1041 @@
+Durham AI Education System Upgrade
+Knowledge Bank Module Implementation Brief for Codex
+Version: Hackathon MVP v1.0
+Language: English only
+File type: plain text
+Date context: Hackathon MVP for one AI module, 2–3 topics, 48-hour build
+
+==================================================
+0. DOCUMENT PURPOSE
+==================================================
+
+This document is a complete implementation brief for Codex.
+
+The goal is to build, from scratch, a functional Knowledge Bank module that satisfies the hackathon MVP requirements and unblocks the rest of the system.
+
+This module is not a research prototype and not a generic vector database wrapper.
+It is the governed knowledge substrate for the wider educational operating system.
+
+This brief intentionally freezes scope and removes ambiguity.
+Codex should follow this document strictly unless a direct contradiction appears in the repository codebase.
+
+The implementation priority is:
+1. Make the main pipeline work.
+2. Freeze contracts and field names.
+3. Keep logic explicit and debuggable.
+4. Prefer simple deterministic behavior over complex but unstable behavior.
+
+==================================================
+1. PROJECT BACKGROUND
+==================================================
+
+The wider project is Durham AI Education System Upgrade.
+
+The overall system vision is a human-governed multi-agent educational operating system.
+The larger architecture includes:
+- Human Governance
+- Orchestration
+- Knowledge Bank
+- Curriculum Production
+- Student-Agent Testing / Advisory
+- Analytics and Adaptation
+- Governance Trace
+- Demo Panel / API Flow
+
+The Knowledge Bank is one of the core system foundations.
+It is responsible for turning raw educational material into structured knowledge units that downstream modules can consume.
+
+For this hackathon, the system does NOT aim to implement a full university-scale platform.
+It aims to implement a sharply reduced MVP for:
+- one AI module
+- one academic term slice
+- 2–3 topics maximum
+
+The primary demonstration chain is:
+
+source intake
+-> source registry
+-> knowledge compilation into draft knowledge units
+-> approval tagging
+-> approved retrieval
+-> generation-ready context bundle
+-> lecture slide generation
+-> student-agent testing
+-> cohort signal write-back
+
+This Knowledge Bank module must support that chain reliably.
+
+==================================================
+2. WHAT THIS KNOWLEDGE BANK MVP MUST DO
+==================================================
+
+This implementation must provide exactly the following core capabilities:
+
+A. source registry
+B. knowledge unit store
+C. draft / approved status management only
+D. metadata-first retrieval
+E. generation-ready context bundle
+F. cohort signal write-in entry
+
+Important scope decision:
+- do NOT implement frontier state now
+- do NOT implement archived state now
+- do NOT implement full governance proposal lifecycle here
+- do NOT implement automatic web crawling
+- do NOT implement heavy graph reasoning
+- do NOT implement a production-grade vector DB
+- do NOT implement direct lecture generation inside Knowledge Bank
+
+This module is ONLY the knowledge substrate and service layer.
+
+==================================================
+3. PRIMARY DESIGN POSITION
+==================================================
+
+The Knowledge Bank is not:
+- a general chatbot
+- a content generation module
+- a governance decision maker
+- a student evaluator
+- a monolithic vector store
+
+The Knowledge Bank is:
+- a structured storage layer for knowledge units
+- a provenance-preserving registry of sources
+- a status-aware retrieval service
+- a contract provider for generation
+- a write-in sink for aggregated cohort signal
+
+==================================================
+4. MANDATORY TECH STACK
+==================================================
+
+Use the simplest stable stack.
+
+Recommended stack:
+- Python
+- FastAPI
+- SQLite
+- Pydantic
+- SQLAlchemy or SQLModel
+- Local filesystem storage for raw uploaded files
+- No mandatory external vector DB
+- Optional lightweight embeddings later, but not required for MVP
+
+Why:
+- fastest to build tonight
+- easy local debug
+- enough for hackathon MVP
+- enough to expose stable API endpoints
+- enough to unblock other teams
+
+==================================================
+5. DIRECTORY STRUCTURE TO IMPLEMENT
+==================================================
+
+Create a clean structure similar to:
+
+backend/
+  api/
+    sources.py
+    knowledge.py
+    approvals.py
+    signals.py
+    summary.py
+  db/
+    base.py
+    session.py
+    init_db.py
+  models/
+    source.py
+    knowledge_unit.py
+    cohort_signal.py
+  schemas/
+    source.py
+    knowledge_unit.py
+    signal.py
+    common.py
+  services/
+    source_service.py
+    knowledge_service.py
+    retrieval_service.py
+    approval_service.py
+    signal_service.py
+    summary_service.py
+    file_parsers/
+      pdf_parser.py
+      image_parser.py
+      code_parser.py
+      text_parser.py
+  storage/
+    raw/
+  sample_data/
+    sample_compiled_units.json
+    sample_signal.json
+  main.py
+
+tests/
+  test_sources.py
+  test_knowledge.py
+  test_retrieval.py
+  test_approvals.py
+  test_signals.py
+
+Notes:
+- Keep the implementation thin.
+- Avoid over-abstraction.
+- Explicit code is preferred.
+- Service files should contain readable business logic.
+- Keep field names consistent across all models, schemas, and responses.
+
+==================================================
+6. DATABASE TABLES
+==================================================
+
+Implement exactly three main tables for MVP.
+
+--------------------------------------------------
+6.1 sources table
+--------------------------------------------------
+
+Purpose:
+Store provenance and upload metadata for all raw source files.
+
+Required columns:
+- source_id: string, primary key
+- filename: string
+- source_type: string
+- module_tag: string
+- week_tag: string, nullable allowed
+- uploader: string
+- hash: string
+- storage_path: string
+- created_at: datetime
+
+Notes:
+- source_id should be generated by backend
+- hash should be computed from file bytes
+- storage_path should point to local saved file
+- source_type examples: pdf, png, jpg, jpeg, py, ipynb, md, txt, json, code, image, text
+- keep source_type flexible but deterministic
+
+--------------------------------------------------
+6.2 knowledge_units table
+--------------------------------------------------
+
+Purpose:
+Store compiled knowledge units used by downstream modules.
+
+Required columns:
+- knowledge_id: string, primary key
+- title: string
+- summary: text
+- body_text: text
+- module_tag: string
+- week_tag: string, nullable allowed
+- topic_tags_json: text
+- difficulty_level: string, nullable allowed
+- pedagogical_role: string
+- source_type: string
+- source_ref_json: text
+- approval_status: string
+- prerequisite_links_json: text
+- learning_outcome_links_json: text
+- version_number: integer
+- created_at: datetime
+- updated_at: datetime
+
+Notes:
+- topic_tags_json stores JSON array as text
+- source_ref_json stores JSON array as text
+- prerequisite_links_json stores JSON array as text
+- learning_outcome_links_json stores JSON array as text
+- approval_status only accepts:
+  - draft
+  - approved
+- version_number starts at 1
+- updated_at must change on approval change or record update
+
+--------------------------------------------------
+6.3 cohort_signals table
+--------------------------------------------------
+
+Purpose:
+Store aggregated learner evidence written back from student-agent testing or analytics.
+
+Required columns:
+- signal_id: string, primary key
+- tested_deck_id: string
+- related_knowledge_ids_json: text
+- weak_topics_json: text
+- repeated_confusion_points_json: text
+- misconception_clusters_json: text
+- evidence_refs_json: text
+- created_at: datetime
+
+Notes:
+- this table is separate from canonical knowledge
+- signals must NOT mutate knowledge_units automatically
+- this is write-in storage only for now
+
+==================================================
+7. STATUS MODEL
+==================================================
+
+For this MVP, approval_status only supports:
+- draft
+- approved
+
+Do not implement frontier or archived right now.
+
+Business rules:
+- newly compiled units must enter as draft
+- generation-ready context bundle must only include approved units
+- search may query either draft or approved, depending on filters
+- if no approval_status is supplied in retrieval, default behavior should be explicit, not silent
+- context bundle must force approved-only behavior regardless of caller preference
+
+==================================================
+8. INPUT FILE SUPPORT
+==================================================
+
+The user specifically wants to start with a 200+ page PDF as source.
+The system must therefore support PDF well enough for source registration and later compilation handoff.
+
+However, the system should also support complete file-type handling logic for:
+- PDF
+- image files such as png, jpg, jpeg
+- code files such as .py, .ipynb, .js, .ts, .java, .cpp, .c
+- text-like files such as .md, .txt, .json
+
+Important:
+This module does NOT need to solve perfect multimodal extraction tonight.
+It only needs:
+- clean source registration
+- source-type routing
+- stable parser fallback behavior
+- ability to accept compile results regardless of file type
+
+--------------------------------------------------
+8.1 File-type routing rules
+--------------------------------------------------
+
+Suggested routing:
+
+If extension == .pdf:
+  source_type = "pdf"
+  route to pdf_parser
+
+If extension in [.png, .jpg, .jpeg, .webp]:
+  source_type = "image"
+  route to image_parser
+
+If extension in [.py, .ipynb, .js, .ts, .java, .cpp, .c, .go, .rs]:
+  source_type = "code"
+  route to code_parser
+
+If extension in [.txt, .md, .json, .csv]:
+  source_type = "text"
+  route to text_parser
+
+Else:
+  source_type = "unknown"
+  still register source
+  do not crash
+
+--------------------------------------------------
+8.2 Parser behavior
+--------------------------------------------------
+
+Parsers are not the main deliverable.
+Keep them simple and safe.
+
+PDF parser:
+- extract plain text if possible
+- if extraction fails, still keep source registered
+- do not block source registry because of parser quality
+
+Image parser:
+- do not attempt heavy OCR tonight unless already available
+- create a minimal placeholder extraction result if needed
+- preserve source metadata
+
+Code parser:
+- read file as text
+- store raw content or generate lightweight summaries later
+- do not attempt advanced AST analysis tonight unless trivial
+
+Text parser:
+- read text content directly
+- support normal UTF-8 content
+
+Most important principle:
+registration must succeed even if extraction quality is limited
+
+==================================================
+9. CORE BUSINESS OBJECTS
+==================================================
+
+--------------------------------------------------
+9.1 Source Registry Object
+--------------------------------------------------
+
+Example:
+{
+  "source_id": "src_001",
+  "filename": "week3_entropy_notes.pdf",
+  "source_type": "pdf",
+  "module_tag": "Machine Learning",
+  "week_tag": "week_03",
+  "uploader": "human_or_agent",
+  "hash": "sha256_xxx",
+  "storage_path": "backend/storage/raw/week3_entropy_notes.pdf",
+  "created_at": "2026-04-16T12:00:00Z"
+}
+
+--------------------------------------------------
+9.2 Knowledge Unit Object
+--------------------------------------------------
+
+Example:
+{
+  "knowledge_id": "kb_014",
+  "title": "Entropy intuition",
+  "summary": "Entropy measures uncertainty in class distribution.",
+  "body_text": "Detailed explanation ...",
+  "module_tag": "Machine Learning",
+  "week_tag": "week_03",
+  "topic_tags": ["decision_tree", "entropy"],
+  "difficulty_level": "intro_undergrad",
+  "pedagogical_role": "concept",
+  "source_type": "pdf",
+  "source_ref": ["src_001"],
+  "approval_status": "draft",
+  "prerequisite_links": [],
+  "learning_outcome_links": [],
+  "version_number": 1,
+  "created_at": "2026-04-16T12:10:00Z",
+  "updated_at": "2026-04-16T12:10:00Z"
+}
+
+--------------------------------------------------
+9.3 Cohort Signal Object
+--------------------------------------------------
+
+Example:
+{
+  "signal_id": "sig_003",
+  "tested_deck_id": "deck_ml_week3_v1",
+  "related_knowledge_ids": ["kb_014"],
+  "weak_topics": ["entropy intuition"],
+  "repeated_confusion_points": ["why lower entropy is better"],
+  "misconception_clusters": ["entropy equals randomness only"],
+  "evidence_refs": ["run_001", "run_002"],
+  "created_at": "2026-04-16T14:00:00Z"
+}
+
+==================================================
+10. REQUIRED API ENDPOINTS
+==================================================
+
+These endpoints must be implemented.
+
+--------------------------------------------------
+10.1 POST /sources/upload
+--------------------------------------------------
+
+Purpose:
+Register and save a raw source file.
+
+Input:
+- multipart file upload
+- source_type optional or inferred
+- module_tag required
+- week_tag optional
+- uploader optional but accepted
+
+Logic:
+- save file to local storage
+- compute file hash
+- infer or normalize source_type
+- create source_id
+- insert row into sources table
+- return source metadata
+
+Output example:
+{
+  "source_id": "src_001",
+  "filename": "week3_entropy_notes.pdf",
+  "source_type": "pdf",
+  "module_tag": "Machine Learning",
+  "week_tag": "week_03",
+  "uploader": "human_or_agent",
+  "hash": "sha256_xxx",
+  "storage_path": "backend/storage/raw/week3_entropy_notes.pdf",
+  "created_at": "2026-04-16T12:00:00Z"
+}
+
+--------------------------------------------------
+10.2 GET /sources
+--------------------------------------------------
+
+Purpose:
+List registered sources.
+
+Query params:
+- module optional
+- week optional
+- source_type optional
+
+Output:
+list of source summaries
+
+--------------------------------------------------
+10.3 GET /sources/{source_id}
+--------------------------------------------------
+
+Purpose:
+Get full source metadata.
+
+Output:
+one source object
+
+--------------------------------------------------
+10.4 POST /knowledge/compile
+--------------------------------------------------
+
+Purpose:
+Write compile output into knowledge_units as draft records.
+
+Important scope rule:
+This endpoint does NOT need to implement full autonomous knowledge extraction tonight.
+It must accept pre-compiled JSON payload and persist it correctly.
+
+Input mode A:
+{
+  "source_id": "src_001"
+}
+
+In this mode, backend may return:
+- placeholder job response
+- or basic parse attempt
+- but must not block future integration
+
+Input mode B:
+{
+  "source_id": "src_001",
+  "compiled_units": [...]
+}
+
+Required logic in mode B:
+- validate compiled units schema
+- force approval_status = draft if missing
+- insert units
+- return created IDs
+
+Output:
+{
+  "job_id": "job_compile_001",
+  "created_knowledge_ids": ["kb_014", "kb_015"]
+}
+
+--------------------------------------------------
+10.5 GET /knowledge/search
+--------------------------------------------------
+
+Purpose:
+Query knowledge units with metadata-first retrieval.
+
+Query params:
+- module
+- week
+- topic
+- approval_status
+- pedagogical_role
+- difficulty_level optional
+- q optional free text
+
+Retrieval logic:
+Step 1:
+  metadata-first filtering
+  filter by module_tag, week_tag, approval_status, pedagogical_role
+
+Step 2:
+  if topic provided, match against topic_tags_json first
+
+Step 3:
+  if q provided, use lightweight text matching against title, summary, body_text
+
+Step 4:
+  return clean knowledge summaries with deterministic ordering
+
+Output fields per result:
+- knowledge_id
+- title
+- summary
+- module_tag
+- week_tag
+- topic_tags
+- pedagogical_role
+- approval_status
+- source_ref
+- version_number
+- updated_at
+
+--------------------------------------------------
+10.6 GET /knowledge/{knowledge_id}
+--------------------------------------------------
+
+Purpose:
+Return full detail for one knowledge unit.
+
+Output:
+full knowledge unit object
+
+--------------------------------------------------
+10.7 POST /approvals/{knowledge_id}
+--------------------------------------------------
+
+Purpose:
+Update draft -> approved
+
+Input:
+{
+  "target_status": "approved",
+  "reviewer": "Professor Yang Long",
+  "decision_reason": "Aligned with syllabus"
+}
+
+Rules:
+- for MVP, only allow draft -> approved
+- reject unsupported transitions cleanly
+- update updated_at
+- keep version_number unchanged for pure approval change unless repository already uses a different policy
+
+Output:
+{
+  "knowledge_id": "kb_014",
+  "new_status": "approved",
+  "updated_at": "2026-04-16T13:00:00Z"
+}
+
+--------------------------------------------------
+10.8 GET /knowledge/context-bundle
+--------------------------------------------------
+
+Purpose:
+Return generation-ready approved knowledge only.
+This is the most important downstream contract for content generation.
+
+Query params:
+- module
+- week
+- topic
+- generation_target
+- difficulty_level optional
+
+Hard rule:
+- must return approved units only
+- never return draft units here
+
+Retrieval logic:
+- filter approved units
+- filter by module/week/topic
+- prioritize concept/example/caution/prerequisite roles if available
+- return stable bundle structure
+
+Output example:
+{
+  "module_tag": "Machine Learning",
+  "week_tag": "week_03",
+  "topic_scope": ["decision tree", "entropy"],
+  "generation_target": "lecture_slide",
+  "approved_context_bundle": [
+    {
+      "knowledge_id": "kb_014",
+      "title": "Entropy intuition",
+      "summary": "Entropy measures uncertainty.",
+      "body_text": "Detailed explanation ...",
+      "pedagogical_role": "concept",
+      "topic_tags": ["decision_tree", "entropy"],
+      "prerequisite_links": [],
+      "source_ref": ["src_001"],
+      "approval_status": "approved",
+      "version_number": 1
+    }
+  ]
+}
+
+--------------------------------------------------
+10.9 POST /signals/cohort
+--------------------------------------------------
+
+Purpose:
+Store aggregated learner evidence.
+
+Input:
+{
+  "tested_deck_id": "deck_ml_week3_v1",
+  "related_knowledge_ids": ["kb_014"],
+  "weak_topics": ["entropy intuition"],
+  "repeated_confusion_points": ["why lower entropy is better"],
+  "misconception_clusters": ["entropy equals randomness only"],
+  "evidence_refs": ["run_001", "run_002"]
+}
+
+Logic:
+- validate payload
+- generate signal_id
+- insert into cohort_signals
+- do not update knowledge_units automatically
+
+Output:
+{
+  "signal_id": "sig_003",
+  "status": "stored"
+}
+
+--------------------------------------------------
+10.10 GET /knowledge/summary
+--------------------------------------------------
+
+Purpose:
+Return dashboard-friendly counts for demo panel.
+
+Output example:
+{
+  "registered_sources": 8,
+  "draft_units": 14,
+  "approved_units": 9,
+  "latest_update_at": "2026-04-16T13:30:00Z"
+}
+
+--------------------------------------------------
+10.11 GET /knowledge/graph
+--------------------------------------------------
+
+Purpose:
+Return lightweight graph data for demo or UI.
+
+This is not required to be graph-engine backed.
+It can be generated from knowledge units and source relationships.
+
+Output example:
+{
+  "nodes": [
+    {"id": "src_001", "label": "week3_entropy_notes.pdf", "type": "source"},
+    {"id": "kb_014", "label": "Entropy intuition", "type": "knowledge_unit", "status": "approved"}
+  ],
+  "edges": [
+    {"source": "src_001", "target": "kb_014", "type": "derived_from"}
+  ]
+}
+
+==================================================
+11. RETRIEVAL IMPLEMENTATION RULES
+==================================================
+
+Retrieval must be metadata-first.
+
+Do NOT start with vector search.
+Do NOT ship semantic-only search.
+Do NOT hide approval filtering in UI only.
+
+Mandatory retrieval rules:
+- module_tag is first-class filter
+- week_tag is first-class filter when available
+- approval_status is explicit and enforced
+- pedagogical_role is explicit
+- topic_tags matching is preferred over loose free text
+- free-text matching is only a secondary aid
+- context-bundle endpoint must force approved-only
+
+If time remains later, optional improvements may include:
+- lightweight reranking
+- prerequisite expansion
+- related concept expansion
+
+But these are not required tonight.
+
+==================================================
+12. FILE UPLOAD AND 200+ PAGE PDF HANDLING
+==================================================
+
+The immediate source example will be a 200+ page PDF.
+
+Important implementation guidance:
+- source registry must support large PDF upload cleanly
+- save the original file even if extraction is incomplete
+- do not block upload because the document is long
+- hash the raw bytes
+- preserve storage path
+- keep compile decoupled from upload
+
+Correct behavior:
+upload succeeds first
+extraction or compile happens later or through explicit handoff
+
+This separation is important because the rest of the system should not wait for a perfect PDF parser before the pipeline can proceed.
+
+==================================================
+13. COORDINATION WITH OTHER MODULES
+==================================================
+
+--------------------------------------------------
+13.1 Content Generation
+--------------------------------------------------
+
+This team must consume:
+- GET /knowledge/context-bundle
+
+They should not build their own knowledge filtering logic.
+
+They need these fields:
+- knowledge_id
+- title
+- summary
+- body_text
+- pedagogical_role
+- topic_tags
+- prerequisite_links
+- source_ref
+- approval_status
+- version_number
+
+--------------------------------------------------
+13.2 Student-Agent Testing
+--------------------------------------------------
+
+They do not need to read raw sources directly.
+Their main interaction with KB is indirect through generation outputs.
+Their feedback writes back via:
+- POST /signals/cohort
+
+--------------------------------------------------
+13.3 Analytics and Adaptation
+--------------------------------------------------
+
+They may read:
+- GET /knowledge/search
+- GET /knowledge/{id}
+
+They need:
+- knowledge_id
+- topic_tags
+- pedagogical_role
+- source_ref
+- approval_status
+- version_number
+
+--------------------------------------------------
+13.4 Governance
+--------------------------------------------------
+
+Governance writes back approval through:
+- POST /approvals/{knowledge_id}
+
+Governance may also inspect:
+- GET /knowledge/{id}
+- GET /knowledge/search
+
+--------------------------------------------------
+13.5 Demo Panel
+--------------------------------------------------
+
+Demo panel should consume:
+- GET /sources
+- GET /knowledge/search
+- GET /knowledge/summary
+- GET /knowledge/graph
+
+==================================================
+14. IMPLEMENTATION LOGIC DETAILS
+==================================================
+
+--------------------------------------------------
+14.1 ID generation
+--------------------------------------------------
+
+Suggested format:
+- source_id: src_<uuid_short>
+- knowledge_id: kb_<uuid_short>
+- signal_id: sig_<uuid_short>
+
+IDs must be backend-generated.
+
+--------------------------------------------------
+14.2 JSON field handling
+--------------------------------------------------
+
+Use JSON arrays serialized as text in SQLite.
+At schema layer, parse them back into lists for API responses.
+
+This is acceptable for hackathon MVP.
+
+--------------------------------------------------
+14.3 Timestamp handling
+--------------------------------------------------
+
+Use ISO timestamps or timezone-aware UTC datetimes consistently.
+
+--------------------------------------------------
+14.4 Validation
+--------------------------------------------------
+
+Use Pydantic request/response models.
+Reject malformed payloads with readable error messages.
+
+--------------------------------------------------
+14.5 Error handling
+--------------------------------------------------
+
+Required behavior:
+- unsupported file type should not crash source registration
+- invalid compile payload should return validation error
+- approval on missing knowledge_id should return 404
+- context bundle with no approved matches should return empty approved_context_bundle, not crash
+- malformed signal payload should return validation error
+
+--------------------------------------------------
+14.6 Logging
+--------------------------------------------------
+
+Keep logs simple.
+At least log:
+- source upload success/failure
+- knowledge compile write success/failure
+- approval updates
+- context bundle requests
+- signal write-in
+
+==================================================
+15. MINIMUM TEST PLAN
+==================================================
+
+The implementation must be testable tonight.
+
+Required tests:
+
+Test 1:
+upload a PDF source
+expected:
+source row created
+file saved
+hash computed
+
+Test 2:
+upload an image source
+expected:
+source row created
+source_type normalized to image
+
+Test 3:
+upload a code file
+expected:
+source row created
+source_type normalized to code
+
+Test 4:
+write compiled_units payload
+expected:
+draft knowledge units inserted
+
+Test 5:
+search knowledge by module + topic + draft
+expected:
+matching rows returned
+
+Test 6:
+approve one draft unit
+expected:
+approval_status becomes approved
+
+Test 7:
+call context-bundle
+expected:
+only approved units returned
+
+Test 8:
+write a cohort signal
+expected:
+signal row inserted
+
+Test 9:
+call knowledge summary
+expected:
+counts are correct
+
+Test 10:
+call knowledge graph
+expected:
+node-edge JSON returned
+
+==================================================
+16. FALLBACK STRATEGY
+==================================================
+
+If time is tight, preserve the following in order:
+
+Tier 1 absolutely required:
+- /sources/upload
+- /knowledge/compile
+- /knowledge/search
+- /approvals/{knowledge_id}
+- /knowledge/context-bundle
+
+Tier 2 strongly recommended:
+- /signals/cohort
+- /knowledge/summary
+
+Tier 3 optional if time remains:
+- /knowledge/graph
+- richer parser behavior
+- lightweight reranking
+
+If compile logic is not ready:
+- accept pre-compiled JSON fixtures
+
+If graph logic is not ready:
+- build graph from simple source-to-knowledge edges only
+
+If PDF extraction is weak:
+- still register source and preserve compile handoff path
+
+==================================================
+17. DELIVERY STANDARD
+==================================================
+
+At the end of implementation, this module is considered successful if:
+
+1. a large PDF source can be registered
+2. compiled knowledge units can be stored as draft
+3. a draft unit can be approved
+4. search works with metadata-first retrieval
+5. approved-only context bundle can be served to generation
+6. cohort signal can be written back
+7. summary data can support demo panel
+8. all field names remain stable across API responses
+
+==================================================
+18. FINAL IMPLEMENTATION PRINCIPLE
+==================================================
+
+The Knowledge Bank MVP must be a stable and explicit substrate, not an ambitious but unstable system.
+
+Prefer:
+- deterministic contracts
+- explicit schemas
+- readable business logic
+- simple SQLite persistence
+- approved-only grounding for generation
+
+Avoid:
+- hidden logic
+- dynamic field drift
+- premature optimization
+- heavy infrastructure
+- mixing draft and approved knowledge in downstream context
+
+Final summary:
+Build the smallest possible Knowledge Bank that can reliably support the hackathon main chain and unblock every downstream module tonight.

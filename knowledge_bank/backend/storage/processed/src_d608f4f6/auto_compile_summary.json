@@ -1,0 +1,27 @@
+{
+  "source_id": "src_d608f4f6",
+  "source_type": "pdf",
+  "generated_unit_count": 99,
+  "titles": [
+    "Chapter 1: The Fundamentals of Machine Learning",
+    "Defining machine learning",
+    "Learning from experience",
+    "Machine learning tasks",
+    "Bias and variance",
+    "Installing using pip",
+    "Installing on Windows",
+    "Installing on Mac OS",
+    "Installing Anaconda",
+    "Verifying the installation",
+    "Summary",
+    "Simple linear regression",
+    "Evaluating the fitness of the model with a cost function",
+    "Solving OLS for simple linear regression",
+    "Evaluating the model",
+    "Summary",
+    "Classification with KNN",
+    "Regression with KNN",
+    "Scaling features",
+    "Summary"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "tested_deck_id": "deck_ml_week3_v1",
+  "related_knowledge_ids": ["kb_example_001"],
+  "weak_topics": ["entropy intuition"],
+  "repeated_confusion_points": ["why lower entropy is better"],
+  "misconception_clusters": ["entropy equals randomness only"],
+  "evidence_refs": ["run_001", "run_002"]
+}

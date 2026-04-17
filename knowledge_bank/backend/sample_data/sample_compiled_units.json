@@ -1,0 +1,33 @@
+{
+  "source_id": "src_example",
+  "compiled_units": [
+    {
+      "title": "Entropy intuition",
+      "summary": "Entropy measures uncertainty in class distribution.",
+      "body_text": "Entropy is highest when classes are evenly mixed and lower when one class dominates. This helps decision trees decide which split reduces uncertainty.",
+      "module_tag": "Machine Learning",
+      "week_tag": "week_03",
+      "topic_tags": ["decision_tree", "entropy"],
+      "difficulty_level": "intro_undergrad",
+      "pedagogical_role": "concept",
+      "source_type": "pdf",
+      "source_ref": ["src_example"],
+      "prerequisite_links": [],
+      "learning_outcome_links": ["lo_decision_tree_entropy"]
+    },
+    {
+      "title": "Entropy worked example",
+      "summary": "A small dataset example showing how entropy changes after a split.",
+      "body_text": "Compute parent entropy, then compute child entropies after splitting the data. The weighted average of child entropies determines information gain.",
+      "module_tag": "Machine Learning",
+      "week_tag": "week_03",
+      "topic_tags": ["decision_tree", "entropy", "information_gain"],
+      "difficulty_level": "intro_undergrad",
+      "pedagogical_role": "example",
+      "source_type": "pdf",
+      "source_ref": ["src_example"],
+      "prerequisite_links": [],
+      "learning_outcome_links": ["lo_information_gain"]
+    }
+  ]
+}
