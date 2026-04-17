@@ -1,0 +1,868 @@
+{
+  "step1_ingest": {
+    "signal_id": "sig_ml_week3_v1_20240522_001",
+    "deck_id": "deck_ml_week3_v1",
+    "status": "ingested",
+    "field_completeness": {
+      "weak_topics": true,
+      "confusion_points": true,
+      "misconception_clusters": true,
+      "missing_prerequisites": true
+    },
+    "tagged_issues": [
+      {
+        "raw_text": "entropy intuition",
+        "preliminary_issue_type": "confusion",
+        "likely_affected_slides": [
+          "slide_04_entropy_formula",
+          "slide_05_entropy_example"
+        ],
+        "source_field": "weak_topics"
+      },
+      {
+        "raw_text": "information gain calculation",
+        "preliminary_issue_type": "confusion",
+        "likely_affected_slides": [
+          "slide_06_information_gain_def",
+          "slide_07_ig_worked_example"
+        ],
+        "source_field": "weak_topics"
+      },
+      {
+        "raw_text": "Gini impurity vs entropy",
+        "preliminary_issue_type": "confusion",
+        "likely_affected_slides": [
+          "slide_10_entropy_vs_gini_theory",
+          "slide_11_comparison_table"
+        ],
+        "source_field": "weak_topics"
+      },
+      {
+        "raw_text": "why lower entropy is better — students keep saying 'lower entropy = less information'",
+        "preliminary_issue_type": "misconception",
+        "likely_affected_slides": [
+          "slide_04_entropy_formula",
+          "slide_05_entropy_example"
+        ],
+        "source_field": "confusion_points"
+      },
+      {
+        "raw_text": "difference between impurity measure and classification error rate",
+        "preliminary_issue_type": "confusion",
+        "likely_affected_slides": [
+          "slide_03_splitting_criteria",
+          "slide_08_gini_impurity_def"
+        ],
+        "source_field": "confusion_points"
+      },
+      {
+        "raw_text": "when to stop splitting a decision tree",
+        "preliminary_issue_type": "missing_prerequisite",
+        "likely_affected_slides": [
+          "slide_12_pruning_intro"
+        ],
+        "source_field": "confusion_points"
+      },
+      {
+        "raw_text": "log base 2 vs natural log in entropy formula",
+        "preliminary_issue_type": "expression_unclear",
+        "likely_affected_slides": [
+          "slide_04_entropy_formula"
+        ],
+        "source_field": "confusion_points"
+      },
+      {
+        "raw_text": "entropy equals randomness only — ignoring its role as uncertainty measure",
+        "preliminary_issue_type": "misconception",
+        "likely_affected_slides": [
+          "slide_04_entropy_formula",
+          "slide_05_entropy_example"
+        ],
+        "source_field": "misconception_clusters"
+      },
+      {
+        "raw_text": "information gain is always positive — students don't consider edge cases",
+        "preliminary_issue_type": "misconception",
+        "likely_affected_slides": [
+          "slide_06_information_gain_def",
+          "slide_07_ig_worked_example"
+        ],
+        "source_field": "misconception_clusters"
+      },
+      {
+        "raw_text": "Gini and entropy always rank features identically",
+        "preliminary_issue_type": "misconception",
+        "likely_affected_slides": [
+          "slide_10_entropy_vs_gini_theory",
+          "slide_11_comparison_table"
+        ],
+        "source_field": "misconception_clusters"
+      },
+      {
+        "raw_text": "logarithm intuition missing — many students can't explain why log appears",
+        "preliminary_issue_type": "missing_prerequisite",
+        "likely_affected_slides": [
+          "slide_04_entropy_formula"
+        ],
+        "source_field": "missing_prerequisite_patterns"
+      },
+      {
+        "raw_text": "probability distribution basics weak — confusion about P(x) summing to 1",
+        "preliminary_issue_type": "missing_prerequisite",
+        "likely_affected_slides": [
+          "slide_04_entropy_formula",
+          "slide_05_entropy_example",
+          "slide_08_gini_impurity_def"
+        ],
+        "source_field": "missing_prerequisite_patterns"
+      }
+    ]
+  },
+  "step2_normalize": {
+    "normalized_issues": [
+      {
+        "issue_id": "ISS_001",
+        "issue_type": "confusion",
+        "topic": "entropy",
+        "affected_slides": [
+          "slide_04_entropy_formula",
+          "slide_05_entropy_example"
+        ],
+        "description": "Students lack intuitive understanding of entropy as a measure of uncertainty or disorder, not just 'randomness'.",
+        "source_evidence": [
+          "weak_topics",
+          "confusion_points",
+          "misconception_clusters"
+        ]
+      },
+      {
+        "issue_id": "ISS_002",
+        "issue_type": "misconception",
+        "topic": "entropy",
+        "affected_slides": [
+          "slide_04_entropy_formula",
+          "slide_05_entropy_example"
+        ],
+        "description": "Students incorrectly equate lower entropy with less information, failing to recognize it reflects greater predictability and reduced uncertainty.",
+        "source_evidence": [
+          "confusion_points",
+          "misconception_clusters"
+        ]
+      },
+      {
+        "issue_id": "ISS_003",
+        "issue_type": "confusion",
+        "topic": "information_gain",
+        "affected_slides": [
+          "slide_06_information_gain_def",
+          "slide_07_ig_worked_example"
+        ],
+        "description": "Students struggle to compute or interpret information gain, including misunderstanding its dependence on parent/child impurity and dataset splits.",
+        "source_evidence": [
+          "weak_topics",
+          "misconception_clusters"
+        ]
+      },
+      {
+        "issue_id": "ISS_004",
+        "issue_type": "misconception",
+        "topic": "information_gain",
+        "affected_slides": [
+          "slide_06_information_gain_def",
+          "slide_07_ig_worked_example"
+        ],
+        "description": "Students believe information gain is always positive, overlooking cases where splitting increases impurity (e.g., due to noise or poor feature choice).",
+        "source_evidence": [
+          "misconception_clusters"
+        ]
+      },
+      {
+        "issue_id": "ISS_005",
+        "issue_type": "confusion",
+        "topic": "entropy_vs_gini",
+        "affected_slides": [
+          "slide_10_entropy_vs_gini_theory",
+          "slide_11_comparison_table"
+        ],
+        "description": "Students conflate entropy and Gini impurity—failing to distinguish their mathematical forms, sensitivity to class distribution, and practical impact on split ranking.",
+        "source_evidence": [
+          "weak_topics",
+          "misconception_clusters"
+        ]
+      },
+      {
+        "issue_id": "ISS_006",
+        "issue_type": "misconception",
+        "topic": "entropy_vs_gini",
+        "affected_slides": [
+          "slide_10_entropy_vs_gini_theory",
+          "slide_11_comparison_table"
+        ],
+        "description": "Students assume entropy and Gini impurity always yield identical feature rankings, ignoring known cases where they disagree (e.g., imbalanced binary splits).",
+        "source_evidence": [
+          "misconception_clusters"
+        ]
+      },
+      {
+        "issue_id": "ISS_007",
+        "issue_type": "confusion",
+        "topic": "impurity_measures",
+        "affected_slides": [
+          "slide_03_splitting_criteria",
+          "slide_08_gini_impurity_def"
+        ],
+        "description": "Students confuse impurity measures (entropy, Gini) with classification error rate, failing to grasp how each quantifies heterogeneity differently and why error rate is rarely used for splitting.",
+        "source_evidence": [
+          "confusion_points"
+        ]
+      },
+      {
+        "issue_id": "ISS_008",
+        "issue_type": "missing_prerequisite",
+        "topic": "logarithms",
+        "affected_slides": [
+          "slide_04_entropy_formula"
+        ],
+        "description": "Students lack foundational intuition for logarithms—unable to explain why log appears in entropy or how base choice affects scale (not semantics).",
+        "source_evidence": [
+          "missing_prerequisite_patterns"
+        ]
+      },
+      {
+        "issue_id": "ISS_009",
+        "issue_type": "missing_prerequisite",
+        "topic": "probability_distributions",
+        "affected_slides": [
+          "slide_04_entropy_formula",
+          "slide_05_entropy_example",
+          "slide_08_gini_impurity_def"
+        ],
+        "description": "Students exhibit weak grasp of discrete probability fundamentals—especially that P(x) must sum to 1 and represent mutually exclusive, exhaustive outcomes.",
+        "source_evidence": [
+          "missing_prerequisite_patterns"
+        ]
+      },
+      {
+        "issue_id": "ISS_010",
+        "issue_type": "expression_unclear",
+        "topic": "entropy",
+        "affected_slides": [
+          "slide_04_entropy_formula"
+        ],
+        "description": "The entropy formula’s use of log base 2 (vs natural log) is presented without clarifying that base only scales the unit (bits vs nats) and does not affect comparative impurity ranking.",
+        "source_evidence": [
+          "confusion_points"
+        ]
+      },
+      {
+        "issue_id": "ISS_011",
+        "issue_type": "missing_prerequisite",
+        "topic": "decision_tree_pruning",
+        "affected_slides": [
+          "slide_12_pruning_intro"
+        ],
+        "description": "Students lack grounding in overfitting concepts and model complexity trade-offs, hindering understanding of when and why to stop tree splitting.",
+        "source_evidence": [
+          "confusion_points"
+        ]
+      }
+    ]
+  },
+  "step3_cluster": {
+    "issue_clusters": [
+      {
+        "cluster_id": "CLU_T_001",
+        "dimension": "topic",
+        "label": "entropy",
+        "issues": [
+          "ISS_001",
+          "ISS_002",
+          "ISS_010"
+        ],
+        "summary": "These issues cluster around the topic 'entropy' and reflect interconnected conceptual barriers: lack of intuitive grounding (ISS_001), a persistent misconception about its relationship to information (ISS_002), and confusion stemming from unclear presentation of the logarithmic base in the formula (ISS_010). All three impede accurate mental modeling of entropy as a *relative, unit-invariant measure of uncertainty*."
+      },
+      {
+        "cluster_id": "CLU_T_002",
+        "dimension": "topic",
+        "label": "information_gain",
+        "issues": [
+          "ISS_003",
+          "ISS_004"
+        ],
+        "summary": "Both issues concern core misunderstandings of information gain—ISS_003 reflects procedural and interpretive confusion in computation and meaning, while ISS_004 reveals a deeper misconception about its mathematical sign and behavior under suboptimal splits. Together, they indicate students treat information gain as a heuristic rather than a rigorously defined impurity reduction metric."
+      },
+      {
+        "cluster_id": "CLU_T_003",
+        "dimension": "topic",
+        "label": "entropy_vs_gini",
+        "issues": [
+          "ISS_005",
+          "ISS_006"
+        ],
+        "summary": "These issues form a tight conceptual pair centered on comparative understanding: ISS_005 reflects surface-level conflation of entropy and Gini, while ISS_006 exposes a more advanced misconception—that their rankings are functionally interchangeable. Both stem from insufficient emphasis on how functional form shapes sensitivity to class distribution and split quality."
+      },
+      {
+        "cluster_id": "CLU_T_004",
+        "dimension": "topic",
+        "label": "impurity_measures",
+        "issues": [
+          "ISS_007"
+        ],
+        "summary": "ISS_007 stands alone as the only issue explicitly labeled under the broader topic 'impurity_measures', highlighting a cross-cutting confusion that bridges entropy, Gini, and classification error. It clusters by topic because it uniquely addresses the *taxonomy and rationale* behind impurity metrics—not just one or two, but their collective purpose and relative suitability."
+      },
+      {
+        "cluster_id": "CLU_T_005",
+        "dimension": "topic",
+        "label": "missing_prerequisites",
+        "issues": [
+          "ISS_008",
+          "ISS_009",
+          "ISS_011"
+        ],
+        "summary": "These issues share the common root cause of missing foundational knowledge: logarithms (ISS_008), probability distributions (ISS_009), and overfitting/model complexity (ISS_011). Though mapped to different specific topics, they collectively represent prerequisite gaps that systematically undermine comprehension of entropy, impurity, and pruning—justifying a cross-topic cluster focused on scaffolding needs."
+      },
+      {
+        "cluster_id": "CLU_S_001",
+        "dimension": "slide",
+        "label": "slide_04_entropy_formula",
+        "issues": [
+          "ISS_001",
+          "ISS_002",
+          "ISS_008",
+          "ISS_009",
+          "ISS_010"
+        ],
+        "summary": "Five issues converge on slide_04_entropy_formula, revealing it as a critical bottleneck: conceptual confusion (ISS_001, ISS_002), prerequisite gaps in logarithms (ISS_008) and probability (ISS_009), and unclear exposition of log base (ISS_010). This density signals that the slide introduces entropy too abstractly, without sufficient grounding or scaffolding."
+      },
+      {
+        "cluster_id": "CLU_S_002",
+        "dimension": "slide",
+        "label": "slide_05_entropy_example",
+        "issues": [
+          "ISS_001",
+          "ISS_002",
+          "ISS_009"
+        ],
+        "summary": "These three issues recur on slide_05_entropy_example, indicating the worked example fails to resolve core confusions—even after formula introduction. Students still lack intuition (ISS_001), misinterpret information-uncertainty relationships (ISS_002), and stumble on probability foundations (ISS_009), suggesting the example lacks scaffolding, contextualization, or explicit misconception rebuttals."
+      },
+      {
+        "cluster_id": "CLU_S_003",
+        "dimension": "slide",
+        "label": "slide_06_information_gain_def",
+        "issues": [
+          "ISS_003",
+          "ISS_004"
+        ],
+        "summary": "Both information gain issues appear on slide_06_information_gain_def, showing that the definitional slide—without immediate computational practice or counterexamples—leaves students vulnerable to procedural confusion (ISS_003) and fundamental misconceptions about sign and validity (ISS_004)."
+      },
+      {
+        "cluster_id": "CLU_S_004",
+        "dimension": "slide",
+        "label": "slide_10_entropy_vs_gini_theory",
+        "issues": [
+          "ISS_005",
+          "ISS_006"
+        ],
+        "summary": "ISS_005 and ISS_006 both affect slide_10_entropy_vs_gini_theory, confirming that the theoretical comparison fails to distinguish functional behavior and decision impact. Students leave the slide conflating the measures (ISS_005) and assuming equivalence in ranking (ISS_006), pointing to insufficient visual, numerical, or edge-case illustration."
+      },
+      {
+        "cluster_id": "CLU_S_005",
+        "dimension": "slide",
+        "label": "slide_08_gini_impurity_def",
+        "issues": [
+          "ISS_007",
+          "ISS_009"
+        ],
+        "summary": "ISS_007 (confusion across impurity measures) and ISS_009 (probability prerequisite gap) co-occur on slide_08_gini_impurity_def, suggesting the Gini definition is presented in isolation—without anchoring to the shared probabilistic foundation or contrasting it meaningfully with entropy or error rate."
+      },
+      {
+        "cluster_id": "CLU_C_001",
+        "dimension": "concept",
+        "label": "probabilistic foundations",
+        "issues": [
+          "ISS_009",
+          "ISS_001",
+          "ISS_002",
+          "ISS_005",
+          "ISS_006",
+          "ISS_007"
+        ],
+        "summary": "Six issues trace back to weak grasp of discrete probability fundamentals—especially normalization (ΣP(x)=1), outcome exhaustiveness, and interpretation of P(x) as uncertainty weights. This underpins entropy confusion (ISS_001/002), entropy-vs-Gini conflation (ISS_005/006), and impurity measure confusion (ISS_007), making it the deepest conceptual dependency."
+      },
+      {
+        "cluster_id": "CLU_C_002",
+        "dimension": "concept",
+        "label": "impurity as uncertainty reduction",
+        "issues": [
+          "ISS_001",
+          "ISS_002",
+          "ISS_003",
+          "ISS_004",
+          "ISS_005",
+          "ISS_006",
+          "ISS_007"
+        ],
+        "summary": "Seven issues—spanning entropy, information gain, and entropy-vs-Gini—reflect failure to internalize impurity as a *quantitative proxy for uncertainty*, and splitting as *targeted uncertainty reduction*. Misconceptions about sign (ISS_004), interchangeability (ISS_006), and conflation (ISS_005/007) all stem from treating formulas as algebraic objects rather than operational uncertainty metrics."
+      },
+      {
+        "cluster_id": "CLU_C_003",
+        "dimension": "concept",
+        "label": "prerequisite scaffolding",
+        "issues": [
+          "ISS_008",
+          "ISS_009",
+          "ISS_011"
+        ],
+        "summary": "These three issues form a coherent concept cluster around missing scaffolds: logarithmic intuition (ISS_008), probability axioms (ISS_009), and overfitting trade-offs (ISS_011). They represent distinct but equally critical foundational layers whose absence prevents integration of algorithmic concepts—making them high-leverage targets for remediation."
+      }
+    ]
+  },
+  "step4_score": {
+    "ranked_issues": [
+      {
+        "issue_id": "ISS_009",
+        "topic": "probability_distributions",
+        "issue_type": "missing_prerequisite",
+        "severity": "critical",
+        "score": 0.94,
+        "affected_slides": [
+          "slide_04_entropy_formula",
+          "slide_05_entropy_example",
+          "slide_08_gini_impurity_def"
+        ],
+        "profile_coverage": "all profiles",
+        "description": "Students exhibit weak grasp of discrete probability fundamentals—especially that P(x) must sum to 1 and represent mutually exclusive, exhaustive outcomes."
+      },
+      {
+        "issue_id": "ISS_001",
+        "topic": "entropy",
+        "issue_type": "confusion",
+        "severity": "critical",
+        "score": 0.92,
+        "affected_slides": [
+          "slide_04_entropy_formula",
+          "slide_05_entropy_example"
+        ],
+        "profile_coverage": "all profiles",
+        "description": "Students lack intuitive understanding of entropy as a measure of uncertainty or disorder, not just 'randomness'."
+      },
+      {
+        "issue_id": "ISS_002",
+        "topic": "entropy",
+        "issue_type": "misconception",
+        "severity": "high",
+        "score": 0.89,
+        "affected_slides": [
+          "slide_04_entropy_formula",
+          "slide_05_entropy_example"
+        ],
+        "profile_coverage": "all profiles",
+        "description": "Students incorrectly equate lower entropy with less information, failing to recognize it reflects greater predictability and reduced uncertainty."
+      },
+      {
+        "issue_id": "ISS_005",
+        "topic": "entropy_vs_gini",
+        "issue_type": "confusion",
+        "severity": "high",
+        "score": 0.86,
+        "affected_slides": [
+          "slide_10_entropy_vs_gini_theory",
+          "slide_11_comparison_table"
+        ],
+        "profile_coverage": "weak + average",
+        "description": "Students conflate entropy and Gini impurity—failing to distinguish their mathematical forms, sensitivity to class distribution, and practical impact on split ranking."
+      },
+      {
+        "issue_id": "ISS_006",
+        "topic": "entropy_vs_gini",
+        "issue_type": "misconception",
+        "severity": "high",
+        "score": 0.85,
+        "affected_slides": [
+          "slide_10_entropy_vs_gini_theory",
+          "slide_11_comparison_table"
+        ],
+        "profile_coverage": "weak + average",
+        "description": "Students assume entropy and Gini impurity always yield identical feature rankings, ignoring known cases where they disagree (e.g., imbalanced binary splits)."
+      },
+      {
+        "issue_id": "ISS_003",
+        "topic": "information_gain",
+        "issue_type": "confusion",
+        "severity": "high",
+        "score": 0.83,
+        "affected_slides": [
+          "slide_06_information_gain_def",
+          "slide_07_ig_worked_example"
+        ],
+        "profile_coverage": "weak + average",
+        "description": "Students struggle to compute or interpret information gain, including misunderstanding its dependence on parent/child impurity and dataset splits."
+      },
+      {
+        "issue_id": "ISS_004",
+        "topic": "information_gain",
+        "issue_type": "misconception",
+        "severity": "medium",
+        "score": 0.78,
+        "affected_slides": [
+          "slide_06_information_gain_def",
+          "slide_07_ig_worked_example"
+        ],
+        "profile_coverage": "weak only",
+        "description": "Students believe information gain is always positive, overlooking cases where splitting increases impurity (e.g., due to noise or poor feature choice)."
+      },
+      {
+        "issue_id": "ISS_007",
+        "topic": "impurity_measures",
+        "issue_type": "confusion",
+        "severity": "medium",
+        "score": 0.75,
+        "affected_slides": [
+          "slide_03_splitting_criteria",
+          "slide_08_gini_impurity_def"
+        ],
+        "profile_coverage": "weak + average",
+        "description": "Students confuse impurity measures (entropy, Gini) with classification error rate, failing to grasp how each quantifies heterogeneity differently and why error rate is rarely used for splitting."
+      },
+      {
+        "issue_id": "ISS_008",
+        "topic": "logarithms",
+        "issue_type": "missing_prerequisite",
+        "severity": "medium",
+        "score": 0.72,
+        "affected_slides": [
+          "slide_04_entropy_formula"
+        ],
+        "profile_coverage": "weak only",
+        "description": "Students lack foundational intuition for logarithms—unable to explain why log appears in entropy or how base choice affects scale (not semantics)."
+      },
+      {
+        "issue_id": "ISS_010",
+        "topic": "entropy",
+        "issue_type": "expression_unclear",
+        "severity": "low",
+        "score": 0.58,
+        "affected_slides": [
+          "slide_04_entropy_formula"
+        ],
+        "profile_coverage": "weak only",
+        "description": "The entropy formula’s use of log base 2 (vs natural log) is presented without clarifying that base only scales the unit (bits vs nats) and does not affect comparative impurity ranking."
+      },
+      {
+        "issue_id": "ISS_011",
+        "topic": "decision_tree_pruning",
+        "issue_type": "missing_prerequisite",
+        "severity": "low",
+        "score": 0.54,
+        "affected_slides": [
+          "slide_12_pruning_intro"
+        ],
+        "profile_coverage": "weak only",
+        "description": "Students lack grounding in overfitting concepts and model complexity trade-offs, hindering understanding of when and why to stop tree splitting."
+      }
+    ]
+  },
+  "step5_recommend": {
+    "recommendations": [
+      {
+        "recommendation_id": "REC_001",
+        "target_issue_id": "ISS_009",
+        "action_type": "add_prerequisite_slide",
+        "target_slides": [
+          "slide_03_splitting_criteria"
+        ],
+        "rationale": "The critical missing prerequisite—discrete probability fundamentals (sum-to-1, mutual exclusivity, exhaustiveness)—undermines comprehension of *all* subsequent impurity measures (entropy, Gini). Adding a dedicated prerequisite slide *before* impurity concepts are introduced ensures students can interpret P(x) correctly in formulas and examples. Placing it at slide_03 (just before entropy/Gini definitions) creates logical scaffolding without disrupting flow.",
+        "priority": "critical"
+      },
+      {
+        "recommendation_id": "REC_002",
+        "target_issue_id": "ISS_001",
+        "action_type": "add_example",
+        "target_slides": [
+          "slide_04_entropy_formula",
+          "slide_05_entropy_example"
+        ],
+        "rationale": "The critical confusion around entropy as 'uncertainty/disorder' (not just randomness) is best resolved with a concrete, intuitive worked example—e.g., contrasting two datasets: one with uniform class distribution (high entropy = high uncertainty in prediction) vs. one skewed toward a single class (low entropy = high predictability). This anchors the abstract formula in experiential reasoning and directly counters the misconception that entropy measures 'chaos' rather than expected surprise.",
+        "priority": "critical"
+      },
+      {
+        "recommendation_id": "REC_003",
+        "target_issue_id": "ISS_002",
+        "action_type": "add_misconception_warning",
+        "target_slides": [
+          "slide_04_entropy_formula",
+          "slide_05_entropy_example"
+        ],
+        "rationale": "The high-severity misconception—that lower entropy means 'less information'—stems from conflating entropy with data volume or signal strength. A concise, visually distinct warning (e.g., '⚠️ Clarification: Lower entropy means *more predictable outcomes*, thus *less new information gained* upon observation—not less total information in the system') directly interrupts this faulty inference at the point of formula application and interpretation.",
+        "priority": "high"
+      },
+      {
+        "recommendation_id": "REC_004",
+        "target_issue_id": "ISS_005",
+        "action_type": "split_dense_slide",
+        "target_slides": [
+          "slide_10_entropy_vs_gini_theory"
+        ],
+        "rationale": "Slide_10 attempts to cover mathematical forms, sensitivity differences, *and* practical ranking impact—all dense conceptual layers. Splitting it into two slides—(a) side-by-side derivation & functional comparison of entropy vs. Gini, and (b) a focused visual case study showing divergent split rankings on imbalanced data—reduces cognitive load and enables clearer contrast for weak/average learners who conflate the metrics.",
+        "priority": "high"
+      },
+      {
+        "recommendation_id": "REC_005",
+        "target_issue_id": "ISS_006",
+        "action_type": "add_example",
+        "target_slides": [
+          "slide_10_entropy_vs_gini_theory",
+          "slide_11_comparison_table"
+        ],
+        "rationale": "The high-severity misconception that entropy and Gini always agree on feature ranking requires a targeted counterexample. Adding a minimal but explicit worked case (e.g., binary split on [90% A, 10% B] → [85% A, 15% B] vs [95% A, 5% B]) where Gini favors one split and entropy the other—annotated with computed values—makes the disagreement tangible and undermines the false assumption of equivalence.",
+        "priority": "high"
+      },
+      {
+        "recommendation_id": "REC_006",
+        "target_issue_id": "ISS_003",
+        "action_type": "rewrite_explanation",
+        "target_slides": [
+          "slide_06_information_gain_def",
+          "slide_07_ig_worked_example"
+        ],
+        "rationale": "The high-severity confusion in computing/interpreting information gain arises from opaque phrasing (e.g., 'reduction in impurity') that obscures its conditional nature. Rewriting the explanation to explicitly frame IG as 'expected reduction in uncertainty *about the target label* when splitting on a feature'—and annotating the worked example with clear parent/child uncertainty labels and delta arrows—reconnects the math to its decision-theoretic purpose.",
+        "priority": "high"
+      }
+    ]
+  },
+  "step6_proposal": {
+    "cohort_insight": {
+      "deck_id": "deck_ml_week3_v1",
+      "weak_topic_rankings": [
+        {
+          "topic": "probability_distributions",
+          "severity": "critical",
+          "score": 0.94
+        },
+        {
+          "topic": "entropy",
+          "severity": "critical",
+          "score": 0.92
+        },
+        {
+          "topic": "entropy_vs_gini",
+          "severity": "high",
+          "score": 0.86
+        },
+        {
+          "topic": "information_gain",
+          "severity": "high",
+          "score": 0.83
+        }
+      ],
+      "confusion_clusters": [
+        {
+          "label": "Impurity Conceptual Foundations",
+          "issue_count": 4,
+          "summary": "Students consistently misinterpret entropy and Gini as measures of 'randomness' or 'data volume', failing to anchor them in probability theory (e.g., sum-to-1, exhaustiveness) and decision-theoretic purpose (uncertainty reduction). This undermines comprehension across entropy, Gini, and information gain."
+        },
+        {
+          "label": "Metric Comparability & Behavior",
+          "issue_count": 3,
+          "summary": "Students conflate entropy and Gini—assuming functional equivalence in ranking, ignoring sensitivity differences, and misattributing disagreement cases—due to insufficient side-by-side derivation, visual contrast, and counterexamples."
+        }
+      ],
+      "missing_prerequisites": [
+        "discrete_probability_fundamentals"
+      ],
+      "affected_slide_refs": [
+        "slide_03_splitting_criteria",
+        "slide_04_entropy_formula",
+        "slide_05_entropy_example",
+        "slide_06_information_gain_def",
+        "slide_07_ig_worked_example",
+        "slide_08_gini_impurity_def",
+        "slide_10_entropy_vs_gini_theory",
+        "slide_11_comparison_table"
+      ]
+    },
+    "proposal_candidates": [
+      {
+        "proposal_candidate_id": "PC_001",
+        "target_deck_id": "deck_ml_week3_v1",
+        "target_knowledge_ids": [
+          "kb_010",
+          "kb_011",
+          "kb_014"
+        ],
+        "recommended_action": "add_prerequisite_slide",
+        "rationale": "Students lack foundational understanding that discrete probability distributions must be mutually exclusive, exhaustive, and sum to 1—causing systematic errors in interpreting P(x) within entropy, Gini, and information gain formulas. Without this prerequisite, all impurity-based reasoning is unstable. Adding a dedicated slide before impurity concepts (at position slide_03_splitting_criteria) ensures learners can correctly compute and contextualize probabilities *before* encountering entropy or Gini definitions.",
+        "evidence_refs": [
+          "run_001",
+          "run_002",
+          "run_005"
+        ],
+        "suggested_priority": "critical"
+      },
+      {
+        "proposal_candidate_id": "PC_002",
+        "target_deck_id": "deck_ml_week3_v1",
+        "target_knowledge_ids": [
+          "kb_011",
+          "kb_014"
+        ],
+        "recommended_action": "add_example",
+        "rationale": "Students interpret entropy as 'chaos' rather than expected uncertainty, leading to misapplication in decision contexts. A concrete, annotated worked example—comparing uniform vs. skewed class distributions and explicitly linking high entropy to low prediction confidence and low entropy to high predictability—grounds the abstract formula in intuitive, experiential reasoning and directly corrects the misconception at its point of first use.",
+        "evidence_refs": [
+          "run_001",
+          "run_003"
+        ],
+        "suggested_priority": "critical"
+      },
+      {
+        "proposal_candidate_id": "PC_003",
+        "target_deck_id": "deck_ml_week3_v1",
+        "target_knowledge_ids": [
+          "kb_011",
+          "kb_014"
+        ],
+        "recommended_action": "add_misconception_warning",
+        "rationale": "Students erroneously conclude that lower entropy implies 'less information' in the system—a high-severity misconception arising from conflating entropy with data volume or signal strength. A concise, visually prominent warning placed directly on slides introducing the entropy formula and its interpretation clarifies that lower entropy reflects *greater predictability*, and thus *less new information gained upon observation*—not reduced total information content.",
+        "evidence_refs": [
+          "run_002",
+          "run_003"
+        ],
+        "suggested_priority": "high"
+      },
+      {
+        "proposal_candidate_id": "PC_004",
+        "target_deck_id": "deck_ml_week3_v1",
+        "target_knowledge_ids": [
+          "kb_014",
+          "kb_019"
+        ],
+        "recommended_action": "split_dense_slide",
+        "rationale": "Slide_10_entropy_vs_gini_theory overloads three distinct cognitive layers—mathematical derivation, functional comparison, and practical ranking impact—causing confusion, especially among weak and average learners. Splitting it into two focused slides (one for side-by-side formal comparison, one for an imbalanced-data case study showing divergent rankings) reduces extraneous cognitive load and enables clear, scaffolded contrast between entropy and Gini behaviors.",
+        "evidence_refs": [
+          "run_005",
+          "run_008"
+        ],
+        "suggested_priority": "high"
+      },
+      {
+        "proposal_candidate_id": "PC_005",
+        "target_deck_id": "deck_ml_week3_v1",
+        "target_knowledge_ids": [
+          "kb_014",
+          "kb_019"
+        ],
+        "recommended_action": "add_example",
+        "rationale": "Students falsely assume entropy and Gini always agree on feature ranking, undermining their ability to select appropriate impurity metrics. A minimal, fully computed counterexample—e.g., a binary split on [90% A, 10% B] yielding child nodes [85% A, 15% B] and [95% A, 5% B], with explicit entropy and Gini values and arrows showing opposing preference—makes the disagreement tangible, memorable, and pedagogically decisive.",
+        "evidence_refs": [
+          "run_005",
+          "run_008"
+        ],
+        "suggested_priority": "high"
+      },
+      {
+        "proposal_candidate_id": "PC_006",
+        "target_deck_id": "deck_ml_week3_v1",
+        "target_knowledge_ids": [
+          "kb_011",
+          "kb_014",
+          "kb_022"
+        ],
+        "recommended_action": "rewrite_explanation",
+        "rationale": "Students miscompute and misinterpret information gain because current explanations obscure its conditional, decision-theoretic nature—framing it vaguely as 'impurity reduction' rather than 'expected reduction in uncertainty about the target label when splitting on a feature'. Rewriting the definition and annotating the worked example with explicit parent/child uncertainty labels and delta notation reconnects the calculation to its core purpose: quantifying how much a feature *reduces prediction uncertainty*.",
+        "evidence_refs": [
+          "run_002",
+          "run_005"
+        ],
+        "suggested_priority": "high"
+      }
+    ],
+    "regenerate_hints": [
+      {
+        "target_slide": "slide_03_splitting_criteria",
+        "action": "add_prerequisite_slide",
+        "hint": "Insert a new slide *immediately before* this one, titled 'Foundations: Discrete Probability Recap'. Include: (1) definition of mutually exclusive & exhaustive outcomes, (2) visual pie chart + bar chart showing sum-to-1 constraint, (3) 2–3 quick self-check questions (e.g., 'Is [0.4, 0.3, 0.2] valid? Why/why not?'), and (4) explicit link to upcoming impurity formulas: 'You’ll see P(x) everywhere next — now you know what it *must* represent.'"
+      },
+      {
+        "target_slide": "slide_04_entropy_formula",
+        "action": "add_example",
+        "hint": "Embed a dual-panel visual example: left panel shows uniform [0.5, 0.5] distribution with high entropy (H=1.0) and caption 'High uncertainty → hard to guess label'; right panel shows skewed [0.9, 0.1] with low entropy (H≈0.47) and caption 'Low uncertainty → easy to guess label'. Use consistent color coding and add a callout: 'Entropy measures *how surprised you’d be* — not how 'random' the data looks.'"
+      },
+      {
+        "target_slide": "slide_04_entropy_formula",
+        "action": "add_misconception_warning",
+        "hint": "Add a bordered, yellow-highlighted box below the entropy formula: '⚠️ Clarification: Lower entropy = *more predictable outcomes*, so observing the label gives you *less new information*. It does NOT mean the dataset contains less total information.'"
+      },
+      {
+        "target_slide": "slide_10_entropy_vs_gini_theory",
+        "action": "split_dense_slide",
+        "hint": "Split into two slides: (1) 'Entropy vs. Gini: Math & Meaning' — side-by-side equations, derivative plots, and bullet contrast (e.g., 'Gini more sensitive to majority class', 'Entropy penalizes near-uniform splits more'); (2) 'When They Disagree: A Case Study' — single imbalanced dataset, two candidate splits, computed values, and heat-mapped ranking arrows showing entropy favoring Split A, Gini favoring Split B."
+      },
+      {
+        "target_slide": "slide_10_entropy_vs_gini_theory",
+        "action": "add_example",
+        "hint": "Insert a compact, step-by-step table directly beneath the main content: columns = 'Split', 'Child 1 (A/B)', 'Child 2 (A/B)', 'Entropy Δ', 'Gini Δ', 'Preferred by'. Populate with the [90/10] → [85/15] & [95/5] example. Add footnote: 'This divergence arises because Gini emphasizes purity of the *majority* class; entropy emphasizes balance across *all* classes.'"
+      },
+      {
+        "target_slide": "slide_06_information_gain_def",
+        "action": "rewrite_explanation",
+        "hint": "Replace current definition with: 'Information Gain = Expected reduction in *uncertainty about the target label* when splitting on a feature. Think: How much does knowing this feature’s value help you predict the label?' Then annotate the IG formula with labeled terms: H(parent) = 'Uncertainty before split', Σ w_i H(child_i) = 'Remaining uncertainty after split', Δ = 'How much uncertainty we eliminated'."
+      }
+    ]
+  },
+  "trace": [
+    {
+      "step": "1_ingest_signal",
+      "model": "qwen-plus",
+      "elapsed_sec": 22.61,
+      "tokens": {
+        "prompt": 1171,
+        "completion": 915
+      }
+    },
+    {
+      "step": "2_normalize_issues",
+      "model": "qwen-plus",
+      "elapsed_sec": 26.12,
+      "tokens": {
+        "prompt": 1115,
+        "completion": 1154
+      }
+    },
+    {
+      "step": "3_cluster_issues",
+      "model": "qwen-plus",
+      "elapsed_sec": 41.73,
+      "tokens": {
+        "prompt": 1469,
+        "completion": 1863
+      }
+    },
+    {
+      "step": "4_score_severity",
+      "model": "qwen-plus",
+      "elapsed_sec": 31.62,
+      "tokens": {
+        "prompt": 3516,
+        "completion": 1294
+      }
+    },
+    {
+      "step": "5_generate_recommendations",
+      "model": "qwen-plus",
+      "elapsed_sec": 23.24,
+      "tokens": {
+        "prompt": 1679,
+        "completion": 1003
+      }
+    },
+    {
+      "step": "6_proposal_candidates",
+      "model": "qwen-plus",
+      "elapsed_sec": 52.97,
+      "tokens": {
+        "prompt": 2908,
+        "completion": 2317
+      }
+    }
+  ]
+}
