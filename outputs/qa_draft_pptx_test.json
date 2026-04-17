@@ -1,0 +1,171 @@
+{
+  "draft_id": "qa_draft_pptx_test_v1",
+  "deck_id": "deck_pptx_test",
+  "title": "QA Draft for Problem-Parameter-Free Federated Learning",
+  "design_notes": [
+    "Questions are designed for undergraduate-level concept checking rather than paper-review trivia.",
+    "The set mixes definition, mechanism, comparison, theory, and experiment interpretation.",
+    "Several questions require explanation or contrast, which is more diagnostic than keyword recall."
+  ],
+  "questions": [
+    {
+      "question_id": "q1",
+      "question_type": "concept_definition",
+      "prompt": "In this presentation, why is hyperparameter tuning described as a major problem in federated learning?",
+      "expected_answer": "Because most federated learning methods depend heavily on carefully tuned local and global learning rates, while federated settings are heterogeneous and the needed problem parameters are often unknown or hard to estimate.",
+      "slide_refs": [
+        "s3",
+        "s4"
+      ],
+      "concept_tags": [
+        "tuning_problem",
+        "heterogeneity",
+        "unknown_problem_parameters"
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "question_id": "q2",
+      "question_type": "concept_definition",
+      "prompt": "What does \"problem-parameter-free\" mean in this paper?",
+      "expected_answer": "It means the algorithm does not require unknown quantities such as smoothness constants, variance terms, or heterogeneity bounds to choose its stepsizes and momentum settings.",
+      "slide_refs": [
+        "s4",
+        "s13"
+      ],
+      "concept_tags": [
+        "problem_parameter_free",
+        "smoothness_constant",
+        "heterogeneity_bounds"
+      ],
+      "difficulty": "easy"
+    },
+    {
+      "question_id": "q3",
+      "question_type": "comparison",
+      "prompt": "How is PAdaMFed different from standard adaptive methods like FedOpt or Adam-style server updates?",
+      "expected_answer": "PAdaMFed performs client-side adaptive updates based on gradient normalization and momentum within a SCAFFOLD-style framework, while many prior adaptive methods still rely on tuning and often apply adaptivity mainly at the server.",
+      "slide_refs": [
+        "s5",
+        "s7",
+        "s10"
+      ],
+      "concept_tags": [
+        "PAdaMFed",
+        "FedOpt",
+        "client_side_adaptivity",
+        "gradient_normalization"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "question_id": "q4",
+      "question_type": "mechanism_explanation",
+      "prompt": "What role do the global and local control variates play in the SCAFFOLD-based part of the method?",
+      "expected_answer": "They correct client drift by adjusting local updates relative to both a global control variate and a client-specific one, helping local training stay aligned with the global optimization direction.",
+      "slide_refs": [
+        "s9"
+      ],
+      "concept_tags": [
+        "SCAFFOLD",
+        "control_variates",
+        "client_drift"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "question_id": "q5",
+      "question_type": "mechanism_explanation",
+      "prompt": "Why does the algorithm normalize the gradient direction before taking a local step?",
+      "expected_answer": "Normalization gives each local step a controlled fixed length, which prevents very large or very small steps, keeps client step magnitudes comparable, and makes the analysis easier.",
+      "slide_refs": [
+        "s10"
+      ],
+      "concept_tags": [
+        "gradient_normalization",
+        "adaptive_stepsize",
+        "step_length_control"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "question_id": "q6",
+      "question_type": "mechanism_explanation",
+      "prompt": "What extra idea is added in PAdaMFed-VR, and why is it useful?",
+      "expected_answer": "PAdaMFed-VR adds a STORM-style variance reduction idea that reuses the same sample in a correction term, which reduces gradient noise and improves communication and sample complexity.",
+      "slide_refs": [
+        "s11",
+        "s12"
+      ],
+      "concept_tags": [
+        "PAdaMFed_VR",
+        "variance_reduction",
+        "STORM"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "question_id": "q7",
+      "question_type": "theory_interpretation",
+      "prompt": "What theoretical assumption does this work remove compared with many earlier federated learning analyses?",
+      "expected_answer": "It removes the bounded-heterogeneity assumption while still proving convergence for nonconvex federated learning under smoother and more standard conditions.",
+      "slide_refs": [
+        "s7",
+        "s8"
+      ],
+      "concept_tags": [
+        "bounded_heterogeneity",
+        "nonconvex_convergence",
+        "assumption_relaxation"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "question_id": "q8",
+      "question_type": "theory_interpretation",
+      "prompt": "According to the presentation, how do the convergence guarantees of PAdaMFed-VR compare with PAdaMFed?",
+      "expected_answer": "PAdaMFed-VR improves both communication and sample complexity over PAdaMFed, moving from epsilon to the minus fourth scaling to epsilon to the minus third scaling in the stated results.",
+      "slide_refs": [
+        "s12"
+      ],
+      "concept_tags": [
+        "communication_complexity",
+        "sample_complexity",
+        "PAdaMFed_VR"
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "question_id": "q9",
+      "question_type": "experiment_interpretation",
+      "prompt": "What experimental evidence is used to argue that the proposed methods are robust to learning-rate choice?",
+      "expected_answer": "The presentation shows that PAdaMFed maintains relatively strong accuracy over a wide range of learning rates on EMNIST under both IID and non-IID settings, whereas baseline methods perform well only in a narrower range.",
+      "slide_refs": [
+        "s16"
+      ],
+      "concept_tags": [
+        "learning_rate_robustness",
+        "EMNIST",
+        "baseline_comparison"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "question_id": "q10",
+      "question_type": "synthesis",
+      "prompt": "If you had to summarize the paper's main claim in two points, what would they be?",
+      "expected_answer": "First, the paper proposes federated learning methods that are problem-parameter-free and avoid relying on unknown tuning constants. Second, these methods achieve strong convergence guarantees and competitive experimental performance under heterogeneous data.",
+      "slide_refs": [
+        "s7",
+        "s12",
+        "s17"
+      ],
+      "concept_tags": [
+        "main_claim",
+        "parameter_free_FL",
+        "theory_and_experiments"
+      ],
+      "difficulty": "easy"
+    }
+  ]
+}

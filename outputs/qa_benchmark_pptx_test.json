@@ -1,0 +1,361 @@
+{
+  "benchmark_id": "benchmark_f880f17b3d2e",
+  "deck_id": "deck_pptx_test",
+  "profile_name": "weak",
+  "total_questions": 10,
+  "model_used": "mock_student_response",
+  "before_pass": {
+    "stage": "before",
+    "correct_count": 2,
+    "total_questions": 10,
+    "accuracy": 0.2,
+    "answers": [
+      {
+        "question_id": "q1",
+        "prompt": "What is the main point of slide 1: Problem-Parameter-Free Federated Learning?",
+        "student_answer": "Authors: Wenjing Yan, Kai Zhang, Xiaolu Wang, Xuanyu Cao",
+        "correct_answer": "Authors: Wenjing Yan, Kai Zhang, Xiaolu Wang, Xuanyu Cao",
+        "is_correct": true,
+        "confidence": 0.32,
+        "missed_concepts": [],
+        "evidence_slide_refs": [
+          "s1"
+        ]
+      },
+      {
+        "question_id": "q2",
+        "prompt": "What is the main point of slide 2: Outline?",
+        "student_answer": "1. Background: Federated Learning and the tuning problem",
+        "correct_answer": "1. Background: Federated Learning and the tuning problem",
+        "is_correct": true,
+        "confidence": 0.32,
+        "missed_concepts": [],
+        "evidence_slide_refs": [
+          "s2"
+        ]
+      },
+      {
+        "question_id": "q3",
+        "prompt": "What is the main point of slide 3: Background: Why this work??",
+        "student_answer": "I am not sure and would likely guess here.",
+        "correct_answer": "Federated learning (FL) enables multiple clients to jointly train a model without sharing raw data, balancing privacy and scalability.",
+        "is_correct": false,
+        "confidence": 0.18,
+        "missed_concepts": [
+          "Background",
+          "this"
+        ],
+        "evidence_slide_refs": [
+          "s3"
+        ]
+      },
+      {
+        "question_id": "q4",
+        "prompt": "What is the main point of slide 4: What does “Problem-Parameter-Free” mean??",
+        "student_answer": "I am not sure and would likely guess here.",
+        "correct_answer": "Many popular methods (FedProx, MIME, FedDyn, etc.) theoretically rely on:",
+        "is_correct": false,
+        "confidence": 0.18,
+        "missed_concepts": [
+          "What",
+          "does"
+        ],
+        "evidence_slide_refs": [
+          "s4"
+        ]
+      },
+      {
+        "question_id": "q5",
+        "prompt": "What is the main point of slide 5: Related Work: Adaptive Stepsizes?",
+        "student_answer": "I am not sure and would likely guess here.",
+        "correct_answer": "Adaptive methods such as AdaGrad, RMSProp, Adam, Yogi adjust learning rates based on gradient history.",
+        "is_correct": false,
+        "confidence": 0.18,
+        "missed_concepts": [
+          "Related",
+          "Work"
+        ],
+        "evidence_slide_refs": [
+          "s5"
+        ]
+      },
+      {
+        "question_id": "q6",
+        "prompt": "What is the main point of slide 6: Related Work: Momentum and Variance Reduction?",
+        "student_answer": "I am not sure and would likely guess here.",
+        "correct_answer": "MIME: combines control variates and momentum to mimic centralized SGD, but requires large batch sizes and problem parameters.",
+        "is_correct": false,
+        "confidence": 0.18,
+        "missed_concepts": [
+          "Related",
+          "Work"
+        ],
+        "evidence_slide_refs": [
+          "s6"
+        ]
+      },
+      {
+        "question_id": "q7",
+        "prompt": "What is the main point of slide 7: High-Level Contributions?",
+        "student_answer": "I am not sure and would likely guess here.",
+        "correct_answer": "Propose PAdaMFed: a client-side algorithm combining adaptive stepsizes (via gradient normalization) with momentum, built on the SCAFFOLD framework.",
+        "is_correct": false,
+        "confidence": 0.18,
+        "missed_concepts": [
+          "High-Level",
+          "Contributions"
+        ],
+        "evidence_slide_refs": [
+          "s7"
+        ]
+      },
+      {
+        "question_id": "q8",
+        "prompt": "What is the main point of slide 8: Problem Setup and Assumptions?",
+        "student_answer": "I am not sure and would likely guess here.",
+        "correct_answer": "Federated learning with N clients and one central server. We minimize the global objective:",
+        "is_correct": false,
+        "confidence": 0.18,
+        "missed_concepts": [
+          "Problem",
+          "Setup"
+        ],
+        "evidence_slide_refs": [
+          "s8"
+        ]
+      },
+      {
+        "question_id": "q9",
+        "prompt": "What is the main point of slide 9: SCAFFOLD introduces global control variate c and local control variates c_i to correct client drift.?",
+        "student_answer": "I am not sure and would likely guess here.",
+        "correct_answer": "This paper extends SCAFFOLD by adding client-side momentum and adaptive stepsizes based on gradient normalization.",
+        "is_correct": false,
+        "confidence": 0.18,
+        "missed_concepts": [
+          "SCAFFOLD",
+          "introduces"
+        ],
+        "evidence_slide_refs": [
+          "s9"
+        ]
+      },
+      {
+        "question_id": "q10",
+        "prompt": "What is the main point of slide 10: Adaptive Stepsizes via Gradient Normalization?",
+        "student_answer": "I am not sure and would likely guess here.",
+        "correct_answer": "Local update rule: θ_i^{t,k+1} = θ_i^{t,k} − η · g_i^{t,k} / ||g_i^{t,k}||.",
+        "is_correct": false,
+        "confidence": 0.18,
+        "missed_concepts": [
+          "Adaptive",
+          "Stepsizes"
+        ],
+        "evidence_slide_refs": [
+          "s10"
+        ]
+      }
+    ]
+  },
+  "after_pass": {
+    "stage": "after",
+    "correct_count": 8,
+    "total_questions": 10,
+    "accuracy": 0.8,
+    "answers": [
+      {
+        "question_id": "q1",
+        "prompt": "What is the main point of slide 1: Problem-Parameter-Free Federated Learning?",
+        "student_answer": "Authors: Wenjing Yan, Kai Zhang, Xiaolu Wang, Xuanyu Cao",
+        "correct_answer": "Authors: Wenjing Yan, Kai Zhang, Xiaolu Wang, Xuanyu Cao",
+        "is_correct": true,
+        "confidence": 0.5,
+        "missed_concepts": [],
+        "evidence_slide_refs": [
+          "s1"
+        ]
+      },
+      {
+        "question_id": "q2",
+        "prompt": "What is the main point of slide 2: Outline?",
+        "student_answer": "1. Background: Federated Learning and the tuning problem",
+        "correct_answer": "1. Background: Federated Learning and the tuning problem",
+        "is_correct": true,
+        "confidence": 0.5,
+        "missed_concepts": [],
+        "evidence_slide_refs": [
+          "s2"
+        ]
+      },
+      {
+        "question_id": "q3",
+        "prompt": "What is the main point of slide 3: Background: Why this work??",
+        "student_answer": "Federated learning (FL) enables multiple clients to jointly train a model without sharing raw data, balancing privacy and scalability.",
+        "correct_answer": "Federated learning (FL) enables multiple clients to jointly train a model without sharing raw data, balancing privacy and scalability.",
+        "is_correct": true,
+        "confidence": 0.5,
+        "missed_concepts": [],
+        "evidence_slide_refs": [
+          "s3"
+        ]
+      },
+      {
+        "question_id": "q4",
+        "prompt": "What is the main point of slide 4: What does “Problem-Parameter-Free” mean??",
+        "student_answer": "Many popular methods (FedProx, MIME, FedDyn, etc.) theoretically rely on:",
+        "correct_answer": "Many popular methods (FedProx, MIME, FedDyn, etc.) theoretically rely on:",
+        "is_correct": true,
+        "confidence": 0.5,
+        "missed_concepts": [],
+        "evidence_slide_refs": [
+          "s4"
+        ]
+      },
+      {
+        "question_id": "q5",
+        "prompt": "What is the main point of slide 5: Related Work: Adaptive Stepsizes?",
+        "student_answer": "Adaptive methods such as AdaGrad, RMSProp, Adam, Yogi adjust learning rates based on gradient history.",
+        "correct_answer": "Adaptive methods such as AdaGrad, RMSProp, Adam, Yogi adjust learning rates based on gradient history.",
+        "is_correct": true,
+        "confidence": 0.5,
+        "missed_concepts": [],
+        "evidence_slide_refs": [
+          "s5"
+        ]
+      },
+      {
+        "question_id": "q6",
+        "prompt": "What is the main point of slide 6: Related Work: Momentum and Variance Reduction?",
+        "student_answer": "MIME: combines control variates and momentum to mimic centralized SGD, but requires large batch sizes and problem parameters.",
+        "correct_answer": "MIME: combines control variates and momentum to mimic centralized SGD, but requires large batch sizes and problem parameters.",
+        "is_correct": true,
+        "confidence": 0.5,
+        "missed_concepts": [],
+        "evidence_slide_refs": [
+          "s6"
+        ]
+      },
+      {
+        "question_id": "q7",
+        "prompt": "What is the main point of slide 7: High-Level Contributions?",
+        "student_answer": "Propose PAdaMFed: a client-side algorithm combining adaptive stepsizes (via gradient normalization) with momentum, built on the SCAFFOLD framework.",
+        "correct_answer": "Propose PAdaMFed: a client-side algorithm combining adaptive stepsizes (via gradient normalization) with momentum, built on the SCAFFOLD framework.",
+        "is_correct": true,
+        "confidence": 0.5,
+        "missed_concepts": [],
+        "evidence_slide_refs": [
+          "s7"
+        ]
+      },
+      {
+        "question_id": "q8",
+        "prompt": "What is the main point of slide 8: Problem Setup and Assumptions?",
+        "student_answer": "Federated learning with N clients and one central server. We minimize the global objective:",
+        "correct_answer": "Federated learning with N clients and one central server. We minimize the global objective:",
+        "is_correct": true,
+        "confidence": 0.5,
+        "missed_concepts": [],
+        "evidence_slide_refs": [
+          "s8"
+        ]
+      },
+      {
+        "question_id": "q9",
+        "prompt": "What is the main point of slide 9: SCAFFOLD introduces global control variate c and local control variates c_i to correct client drift.?",
+        "student_answer": "I still mix this up with SCAFFOLD.",
+        "correct_answer": "This paper extends SCAFFOLD by adding client-side momentum and adaptive stepsizes based on gradient normalization.",
+        "is_correct": false,
+        "confidence": 0.36,
+        "missed_concepts": [
+          "SCAFFOLD",
+          "introduces"
+        ],
+        "evidence_slide_refs": [
+          "s9"
+        ]
+      },
+      {
+        "question_id": "q10",
+        "prompt": "What is the main point of slide 10: Adaptive Stepsizes via Gradient Normalization?",
+        "student_answer": "I still mix this up with Adaptive.",
+        "correct_answer": "Local update rule: θ_i^{t,k+1} = θ_i^{t,k} − η · g_i^{t,k} / ||g_i^{t,k}||.",
+        "is_correct": false,
+        "confidence": 0.36,
+        "missed_concepts": [
+          "Adaptive",
+          "Stepsizes"
+        ],
+        "evidence_slide_refs": [
+          "s10"
+        ]
+      }
+    ]
+  },
+  "improvement_delta": 6,
+  "collaborator_handoff": {
+    "handoff_id": "handoff_5068dc68ea5b",
+    "schema_version": "collaborator_handoff.v1",
+    "handoff_type": "unresolved_qa_questions",
+    "deck_id": "deck_pptx_test",
+    "benchmark_id": "benchmark_f880f17b3d2e",
+    "source_stage": "after_pass",
+    "source_system": "student_agent_testing",
+    "target_collaborator": "next_collaborator",
+    "unresolved_count": 2,
+    "unresolved_items": [
+      {
+        "priority": 1,
+        "target_type": "question",
+        "target_ref": "q9",
+        "issue_types": [
+          "incorrect_after_support",
+          "requires_collaborator_followup"
+        ],
+        "affected_profiles": [
+          "weak"
+        ],
+        "reason": "Student still answered incorrectly after QA support in the after pass.",
+        "suggestion": "Use the expected answer and missed concepts to prepare a targeted re-teach step, then re-check understanding.",
+        "question_id": "q9",
+        "prompt": "What is the main point of slide 9: SCAFFOLD introduces global control variate c and local control variates c_i to correct client drift.?",
+        "student_answer": "I still mix this up with SCAFFOLD.",
+        "correct_answer": "This paper extends SCAFFOLD by adding client-side momentum and adaptive stepsizes based on gradient normalization.",
+        "failure_reason": "Student still answered incorrectly after QA support.",
+        "missed_concepts": [
+          "SCAFFOLD",
+          "introduces"
+        ],
+        "recommended_followup": "Re-teach the missed concepts with a worked example, then ask the student to answer again.",
+        "slide_refs": [
+          "s9"
+        ]
+      },
+      {
+        "priority": 1,
+        "target_type": "question",
+        "target_ref": "q10",
+        "issue_types": [
+          "incorrect_after_support",
+          "requires_collaborator_followup"
+        ],
+        "affected_profiles": [
+          "weak"
+        ],
+        "reason": "Student still answered incorrectly after QA support in the after pass.",
+        "suggestion": "Use the expected answer and missed concepts to prepare a targeted re-teach step, then re-check understanding.",
+        "question_id": "q10",
+        "prompt": "What is the main point of slide 10: Adaptive Stepsizes via Gradient Normalization?",
+        "student_answer": "I still mix this up with Adaptive.",
+        "correct_answer": "Local update rule: θ_i^{t,k+1} = θ_i^{t,k} − η · g_i^{t,k} / ||g_i^{t,k}||.",
+        "failure_reason": "Student still answered incorrectly after QA support.",
+        "missed_concepts": [
+          "Adaptive",
+          "Stepsizes"
+        ],
+        "recommended_followup": "Re-teach the missed concepts with a worked example, then ask the student to answer again.",
+        "slide_refs": [
+          "s10"
+        ]
+      }
+    ]
+  }
+}
