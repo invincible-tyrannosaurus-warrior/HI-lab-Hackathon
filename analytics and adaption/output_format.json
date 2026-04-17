@@ -1,0 +1,33 @@
+{
+  "selected_issues": [
+    {
+      "issue_type": "missing_prerequisite",
+      "topic": "variables and assignment",
+      "confidence": 0.91,
+      "reason": "multiple signals indicate students lack the required foundation"
+    },
+    {
+      "issue_type": "concept_confusion",
+      "topic": "print vs return",
+      "confidence": 0.95,
+      "reason": "students repeatedly confuse output display with function return value"
+    }
+  ],
+  "selected_actions": [
+    {
+      "action": "add_prerequisite_slide",
+      "priority": "high",
+      "reason": "foundation gap prevents students from understanding later material"
+    },
+    {
+      "action": "add_step_by_step_trace",
+      "priority": "high",
+      "reason": "students struggle to trace execution flow"
+    },
+    {
+      "action": "add_misconception_warning",
+      "priority": "medium",
+      "reason": "a repeated false belief about scope is present"
+    }
+  ]
+}
