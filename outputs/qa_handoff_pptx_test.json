@@ -1,0 +1,67 @@
+{
+  "handoff_id": "handoff_5a819d1fb9c7",
+  "schema_version": "collaborator_handoff.v1",
+  "handoff_type": "content_revision_handoff",
+  "deck_id": "deck_pptx_test",
+  "benchmark_id": "benchmark_8753ede986c9",
+  "source_stage": "after_pass",
+  "source_system": "student_agent_testing",
+  "target_collaborator": "content_revision_collaborator",
+  "unresolved_count": 2,
+  "items": [
+    {
+      "priority": "high",
+      "target_type": "question",
+      "target_ref": "q9",
+      "issue_types": [
+        "incorrect_after_support",
+        "content_revision_candidate"
+      ],
+      "affected_profiles": [
+        "weak"
+      ],
+      "reason": "Student still answered incorrectly after QA support in the after pass.",
+      "suggestion": "Revise the related slide content to address the missed concepts, then regenerate or update the question support materials.",
+      "question_id": "q9",
+      "prompt": "What is the main point of slide 9: SCAFFOLD introduces global control variate c and local control variates c_i to correct client drift.?",
+      "student_answer": "I still mix this up with SCAFFOLD.",
+      "correct_answer": "This paper extends SCAFFOLD by adding client-side momentum and adaptive stepsizes based on gradient normalization.",
+      "failure_reason": "Student still answered incorrectly after QA support.",
+      "missed_concepts": [
+        "SCAFFOLD",
+        "introduces"
+      ],
+      "recommended_followup": "Update the slide explanation, add a clearer worked example, and tighten terminology around the missed concepts.",
+      "slide_refs": [
+        "s9"
+      ]
+    },
+    {
+      "priority": "high",
+      "target_type": "question",
+      "target_ref": "q10",
+      "issue_types": [
+        "incorrect_after_support",
+        "content_revision_candidate"
+      ],
+      "affected_profiles": [
+        "weak"
+      ],
+      "reason": "Student still answered incorrectly after QA support in the after pass.",
+      "suggestion": "Revise the related slide content to address the missed concepts, then regenerate or update the question support materials.",
+      "question_id": "q10",
+      "prompt": "What is the main point of slide 10: Adaptive Stepsizes via Gradient Normalization?",
+      "student_answer": "I still mix this up with Adaptive.",
+      "correct_answer": "Local update rule: θ_i^{t,k+1} = θ_i^{t,k} − η · g_i^{t,k} / ||g_i^{t,k}||.",
+      "failure_reason": "Student still answered incorrectly after QA support.",
+      "missed_concepts": [
+        "Adaptive",
+        "Stepsizes"
+      ],
+      "recommended_followup": "Update the slide explanation, add a clearer worked example, and tighten terminology around the missed concepts.",
+      "slide_refs": [
+        "s10"
+      ]
+    }
+  ]
+}
