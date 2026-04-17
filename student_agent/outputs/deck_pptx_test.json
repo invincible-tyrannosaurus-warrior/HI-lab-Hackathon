@@ -1,0 +1,412 @@
+{
+  "deck_id": "deck_pptx_test",
+  "module_tag": "uploaded_module",
+  "week_tag": "uploaded_week",
+  "topic_tags": [
+    "federated learning",
+    "paper presentation"
+  ],
+  "slides": [
+    {
+      "slide_id": "s1",
+      "title": "Problem-Parameter-Free Federated Learning",
+      "key_points": [
+        "Authors: Wenjing Yan, Kai Zhang, Xiaolu Wang, Xuanyu Cao",
+        "Venue: ICLR 2025 (International Conference on Learning Representations)",
+        "Presenter: Leyuan Zhang, Durham University",
+        "Keywords: Federated Learning, Adaptive Stepsize, Momentum, Heterogeneous Data",
+        "1"
+      ],
+      "terms": [
+        "Problem-Parameter-Free",
+        "Federated",
+        "Learning",
+        "Authors",
+        "Wenjing",
+        "Zhang"
+      ],
+      "examples": [],
+      "raw_text": "Problem-Parameter-Free Federated Learning\nAuthors: Wenjing Yan, Kai Zhang, Xiaolu Wang, Xuanyu Cao\nVenue: ICLR 2025 (International Conference on Learning Representations)\nPresenter: Leyuan Zhang, Durham University\nKeywords: Federated Learning, Adaptive Stepsize, Momentum, Heterogeneous Data\n1"
+    },
+    {
+      "slide_id": "s2",
+      "title": "Outline",
+      "key_points": [
+        "1. Background: Federated Learning and the tuning problem",
+        "2. Existing methods and limitations (adaptive stepsizes / momentum / FedSPS, etc.)",
+        "3. Overview of the proposed methods: PAdaMFed and PAdaMFed-VR",
+        "4. Algorithm details and theoretical convergence results",
+        "5. Experimental setup and results on EMNIST and CIFAR-10"
+      ],
+      "terms": [
+        "Outline",
+        "Background",
+        "Federated",
+        "Learning",
+        "tuning",
+        "problem"
+      ],
+      "examples": [],
+      "raw_text": "Outline\n1. Background: Federated Learning and the tuning problem\n2. Existing methods and limitations (adaptive stepsizes / momentum / FedSPS, etc.)\n3. Overview of the proposed methods: PAdaMFed and PAdaMFed-VR\n4. Algorithm details and theoretical convergence results\n5. Experimental setup and results on EMNIST and CIFAR-10\n6. Takeaways and future directions\n2"
+    },
+    {
+      "slide_id": "s3",
+      "title": "Background: Why this work?",
+      "key_points": [
+        "Federated learning (FL) enables multiple clients to jointly train a model without sharing raw data, balancing privacy and scalability.",
+        "In practice: clients are highly heterogeneous – data are non-IID, devices are unstable, and participation is dynamic.",
+        "The performance of most FL algorithms heavily depends on careful hyperparameter tuning, especially global and local learning rates.",
+        "In FL, problem parameters like smoothness constant L, gradient variance σ², and heterogeneity bounds are unknown and hard to estimate.",
+        "Motivation: design an FL algorithm that does not rely on such problem-specific parameters and still has strong guarantees."
+      ],
+      "terms": [
+        "Background",
+        "this",
+        "work?",
+        "Federated",
+        "learning",
+        "enables"
+      ],
+      "examples": [],
+      "raw_text": "Background: Why this work?\nFederated learning (FL) enables multiple clients to jointly train a model without sharing raw data, balancing privacy and scalability.\nIn practice: clients are highly heterogeneous – data are non-IID, devices are unstable, and participation is dynamic.\nThe performance of most FL algorithms heavily depends on careful hyperparameter tuning, especially global and local learning rates.\nIn FL, problem parameters like smoothness constant L, gradient variance σ², and heterogeneity bounds are unknown and hard to estimate.\nMotivation: design an FL algorithm that does not rely on such problem-specific parameters and still has strong guarantees.\n3"
+    },
+    {
+      "slide_id": "s4",
+      "title": "What does “Problem-Parameter-Free” mean?",
+      "key_points": [
+        "Many popular methods (FedProx, MIME, FedDyn, etc.) theoretically rely on:",
+        "• The smoothness constant L, gradient variance σ², heterogeneity bounds B, σ_h², and so on.",
+        "• These problem parameters are usually unknown in federated settings and expensive to estimate, possibly harming privacy.",
+        "In practice, people resort to grid search and heuristic tuning of learning rates, which is time-consuming and unstable.",
+        "Goal of this paper: design an FL algorithm whose stepsizes and momentum depend only on system parameters (number of clients S, local steps K, rounds T) rather than problem parameters."
+      ],
+      "terms": [
+        "What",
+        "does",
+        "mean?",
+        "Many",
+        "popular",
+        "methods"
+      ],
+      "examples": [],
+      "raw_text": "What does “Problem-Parameter-Free” mean?\nMany popular methods (FedProx, MIME, FedDyn, etc.) theoretically rely on:\n• The smoothness constant L, gradient variance σ², heterogeneity bounds B, σ_h², and so on.\n• These problem parameters are usually unknown in federated settings and expensive to estimate, possibly harming privacy.\nIn practice, people resort to grid search and heuristic tuning of learning rates, which is time-consuming and unstable.\nGoal of this paper: design an FL algorithm whose stepsizes and momentum depend only on system parameters (number of clients S, local steps K, rounds T) rather than problem parameters.\n4"
+    },
+    {
+      "slide_id": "s5",
+      "title": "Related Work: Adaptive Stepsizes",
+      "key_points": [
+        "Adaptive methods such as AdaGrad, RMSProp, Adam, Yogi adjust learning rates based on gradient history.",
+        "FedOpt family: applies AdaGrad / Adam / Yogi at the server to accelerate convergence compared to FedAvg.",
+        "FedNova: normalizes local updates to mitigate client drift caused by partial participation and data heterogeneity.",
+        "FedBN: keeps BatchNorm layers local to each client to handle feature distribution shift in non-IID settings.",
+        "Limitation: these methods still require tuning base learning rates and, in theory, their stepsizes depend on problem parameters."
+      ],
+      "terms": [
+        "Related",
+        "Work",
+        "Adaptive",
+        "Stepsizes",
+        "methods",
+        "such"
+      ],
+      "examples": [],
+      "raw_text": "Related Work: Adaptive Stepsizes\nAdaptive methods such as AdaGrad, RMSProp, Adam, Yogi adjust learning rates based on gradient history.\nFedOpt family: applies AdaGrad / Adam / Yogi at the server to accelerate convergence compared to FedAvg.\nFedNova: normalizes local updates to mitigate client drift caused by partial participation and data heterogeneity.\nFedBN: keeps BatchNorm layers local to each client to handle feature distribution shift in non-IID settings.\nLimitation: these methods still require tuning base learning rates and, in theory, their stepsizes depend on problem parameters.\n5"
+    },
+    {
+      "slide_id": "s6",
+      "title": "Related Work: Momentum and Variance Reduction",
+      "key_points": [
+        "MIME: combines control variates and momentum to mimic centralized SGD, but requires large batch sizes and problem parameters.",
+        "FAFED: uses adaptive matrices plus variance reduction to achieve near-optimal complexity, under strong bounded-heterogeneity assumptions.",
+        "FedSPS: claims local adaptivity via Polyak stepsizes, but still needs knowledge of smoothness and loss lower bounds, and does not achieve optimal rates with constant stepsizes.",
+        "6",
+        "Momentum can smooth stochastic gradients, accelerate convergence, and improve robustness under heterogeneous data."
+      ],
+      "terms": [
+        "Related",
+        "Work",
+        "Momentum",
+        "Variance",
+        "Reduction",
+        "MIME"
+      ],
+      "examples": [],
+      "raw_text": "Related Work: Momentum and Variance Reduction\nMIME: combines control variates and momentum to mimic centralized SGD, but requires large batch sizes and problem parameters.\nFAFED: uses adaptive matrices plus variance reduction to achieve near-optimal complexity, under strong bounded-heterogeneity assumptions.\nFedSPS: claims local adaptivity via Polyak stepsizes, but still needs knowledge of smoothness and loss lower bounds, and does not achieve optimal rates with constant stepsizes.\n6\nMomentum can smooth stochastic gradients, accelerate convergence, and improve robustness under heterogeneous data."
+    },
+    {
+      "slide_id": "s7",
+      "title": "High-Level Contributions",
+      "key_points": [
+        "Propose PAdaMFed: a client-side algorithm combining adaptive stepsizes (via gradient normalization) with momentum, built on the SCAFFOLD framework.",
+        "Feature 1: no need for L, σ², or heterogeneity bounds—stepsizes depend only on S, K, and T.",
+        "Feature 2: remove the common bounded-heterogeneity assumption while still proving convergence for nonconvex FL.",
+        "Feature 3: develop PAdaMFed-VR with additional variance reduction, achieving improved communication and sample complexity.",
+        "Feature 4: experiments on EMNIST and CIFAR-10 show faster convergence, better final accuracy, and stronger robustness to learning rates than strong baselines."
+      ],
+      "terms": [
+        "High-Level",
+        "Contributions",
+        "Propose",
+        "PAdaMFed",
+        "client-side",
+        "algorithm"
+      ],
+      "examples": [],
+      "raw_text": "High-Level Contributions\nPropose PAdaMFed: a client-side algorithm combining adaptive stepsizes (via gradient normalization) with momentum, built on the SCAFFOLD framework.\nFeature 1: no need for L, σ², or heterogeneity bounds—stepsizes depend only on S, K, and T.\nFeature 2: remove the common bounded-heterogeneity assumption while still proving convergence for nonconvex FL.\nFeature 3: develop PAdaMFed-VR with additional variance reduction, achieving improved communication and sample complexity.\nFeature 4: experiments on EMNIST and CIFAR-10 show faster convergence, better final accuracy, and stronger robustness to learning rates than strong baselines.\n7"
+    },
+    {
+      "slide_id": "s8",
+      "title": "Problem Setup and Assumptions",
+      "key_points": [
+        "Federated learning with N clients and one central server. We minimize the global objective:",
+        "• f(θ) = 1/N ∑_{i=1}^N f_i(θ), where f_i is the expected loss on client i.",
+        "Data heterogeneity: local data distributions D_i can be very different (non-IID).",
+        "Assumptions:",
+        "• Each f_i is L-smooth (Lipschitz continuous gradients)."
+      ],
+      "terms": [
+        "Problem",
+        "Setup",
+        "Assumptions",
+        "Federated",
+        "learning",
+        "with"
+      ],
+      "examples": [],
+      "raw_text": "Problem Setup and Assumptions\nFederated learning with N clients and one central server. We minimize the global objective:\n• f(θ) = 1/N ∑_{i=1}^N f_i(θ), where f_i is the expected loss on client i.\nData heterogeneity: local data distributions D_i can be very different (non-IID).\nAssumptions:\n• Each f_i is L-smooth (Lipschitz continuous gradients).\n• Stochastic gradients are unbiased with bounded variance σ² on each client.\nKey difference from many prior works: no bounded-heterogeneity assumption such as ||∇f_i(θ) − ∇f(θ)|| ≤ B.\n8"
+    },
+    {
+      "slide_id": "s9",
+      "title": "SCAFFOLD introduces global control variate c and local control variates c_i to correct client drift.",
+      "key_points": [
+        "This paper extends SCAFFOLD by adding client-side momentum and adaptive stepsizes based on gradient normalization.",
+        "At round t and local step k, client i computes:",
+        "• g_i^{t,k} = β (∇F(θ_i^{t,k}; ξ_i^{t,k}) − c_i^{t−1} + c^{t−1}) + (1 − β) g^{t−1}.",
+        "Local update direction is normalized to control the size of each step.",
+        "The server aggregates model differences to estimate a global direction g^t and updates θ^{t+1} with a global stepsize γ."
+      ],
+      "terms": [
+        "SCAFFOLD",
+        "introduces",
+        "global",
+        "control",
+        "variate",
+        "local"
+      ],
+      "examples": [],
+      "raw_text": "SCAFFOLD introduces global control variate c and local control variates c_i to correct client drift.\nThis paper extends SCAFFOLD by adding client-side momentum and adaptive stepsizes based on gradient normalization.\nAt round t and local step k, client i computes:\n• g_i^{t,k} = β (∇F(θ_i^{t,k}; ξ_i^{t,k}) − c_i^{t−1} + c^{t−1}) + (1 − β) g^{t−1}.\nLocal update direction is normalized to control the size of each step.\nThe server aggregates model differences to estimate a global direction g^t and updates θ^{t+1} with a global stepsize γ.\n9\nAlgorithm Framework: SCAFFOLD-Based Design"
+    },
+    {
+      "slide_id": "s10",
+      "title": "Adaptive Stepsizes via Gradient Normalization",
+      "key_points": [
+        "Local update rule: θ_i^{t,k+1} = θ_i^{t,k} − η · g_i^{t,k} / ||g_i^{t,k}||.",
+        "Effect 1: each local step has fixed length η, preventing very large or very small effective stepsizes.",
+        "Effect 2: clients within the same round move with comparable step magnitudes, reducing dominance of any single client.",
+        "Effect 3: the fixed step length simplifies bounding the distance between local models and the global model in analysis.",
+        "Intuition:"
+      ],
+      "terms": [
+        "Adaptive",
+        "Stepsizes",
+        "Gradient",
+        "Normalization",
+        "Local",
+        "update"
+      ],
+      "examples": [],
+      "raw_text": "Adaptive Stepsizes via Gradient Normalization\nLocal update rule: θ_i^{t,k+1} = θ_i^{t,k} − η · g_i^{t,k} / ||g_i^{t,k}||.\nEffect 1: each local step has fixed length η, preventing very large or very small effective stepsizes.\nEffect 2: clients within the same round move with comparable step magnitudes, reducing dominance of any single client.\nEffect 3: the fixed step length simplifies bounding the distance between local models and the global model in analysis.\nIntuition:\n• When gradients are small, normalization effectively enlarges the learning rate; when gradients are large, it shrinks the step to avoid divergence.\n10"
+    },
+    {
+      "slide_id": "s11",
+      "title": "PAdaMFed-VR: Adding Variance Reduction",
+      "key_points": [
+        "On top of PAdaMFed, PAdaMFed-VR incorporates a STORM-style variance reduction technique.",
+        "Key idea: reuse the same sample ξ_i^{t,k} twice:",
+        "• Once at the current local model θ_i^{t,k};",
+        "• Once at the previous global model θ^{t−1}, to form a correction term.",
+        "The direction roughly becomes:"
+      ],
+      "terms": [
+        "PAdaMFed-VR",
+        "Adding",
+        "Variance",
+        "Reduction",
+        "PAdaMFed",
+        "incorporates"
+      ],
+      "examples": [],
+      "raw_text": "PAdaMFed-VR: Adding Variance Reduction\nOn top of PAdaMFed, PAdaMFed-VR incorporates a STORM-style variance reduction technique.\nKey idea: reuse the same sample ξ_i^{t,k} twice:\n• Once at the current local model θ_i^{t,k};\n• Once at the previous global model θ^{t−1}, to form a correction term.\nThe direction roughly becomes:\n• g_i^{t,k} = ∇F(θ_i^{t,k}; ξ_i^{t,k}) + β(c^{t−1} − c_i^{t−1}) + (1 − β)(g^{t−1} − ∇F(θ^{t−1}; ξ_i^{t,k})).\nThis reduces gradient noise without extra communication, improving both sample efficiency and convergence speed.\n11"
+    },
+    {
+      "slide_id": "s12",
+      "title": "Theoretical Results (I): Convergence and Complexity",
+      "key_points": [
+        "Under only L-smoothness and bounded client-wise variance, the authors prove:",
+        "• PAdaMFed: with constant stepsizes, it finds an ε-stationary point (E||∇f(θ)|| ≤ ε) within O(1/(S K ε⁴)) communication rounds.",
+        "• The corresponding sample complexity is O(ε⁻⁴).",
+        "• PAdaMFed-VR: with variance reduction, communication complexity improves to O(1/(S K ε³)), and sample complexity to O(ε⁻³).",
+        "Both algorithms enjoy linear speedup with respect to the number of participating clients S and local steps K."
+      ],
+      "terms": [
+        "Theoretical",
+        "Results",
+        "Convergence",
+        "Complexity",
+        "Under",
+        "only"
+      ],
+      "examples": [],
+      "raw_text": "Theoretical Results (I): Convergence and Complexity\nUnder only L-smoothness and bounded client-wise variance, the authors prove:\n• PAdaMFed: with constant stepsizes, it finds an ε-stationary point (E||∇f(θ)|| ≤ ε) within O(1/(S K ε⁴)) communication rounds.\n• The corresponding sample complexity is O(ε⁻⁴).\n• PAdaMFed-VR: with variance reduction, communication complexity improves to O(1/(S K ε³)), and sample complexity to O(ε⁻³).\nBoth algorithms enjoy linear speedup with respect to the number of participating clients S and local steps K.\n12"
+    },
+    {
+      "slide_id": "s13",
+      "title": "Theoretical Results (II): Truly Parameter-Free",
+      "key_points": [
+        "Traditional FL algorithms pick stepsizes based on unknown constants like L, σ², or heterogeneity bounds.",
+        "In reality, these constants are hard to estimate, and heuristic tuning may deviate from theoretical guidance.",
+        "In PAdaMFed and PAdaMFed-VR:",
+        "• The local stepsize η, global stepsize γ, and momentum coefficient β are designed as functions of S, K, and T only.",
+        "• For example, η = 1/(K√T), γ ≈ (S K)^{1/4} / T^{3/4}, and β ≈ √(S K / T) (up to constant factors)."
+      ],
+      "terms": [
+        "Theoretical",
+        "Results",
+        "Truly",
+        "Parameter-Free",
+        "Traditional",
+        "algorithms"
+      ],
+      "examples": [
+        "• For example, η = 1/(K√T), γ ≈ (S K)^{1/4} / T^{3/4}, and β ≈ √(S K / T) (up to constant factors)."
+      ],
+      "raw_text": "Theoretical Results (II): Truly Parameter-Free\nTraditional FL algorithms pick stepsizes based on unknown constants like L, σ², or heterogeneity bounds.\nIn reality, these constants are hard to estimate, and heuristic tuning may deviate from theoretical guidance.\nIn PAdaMFed and PAdaMFed-VR:\n• The local stepsize η, global stepsize γ, and momentum coefficient β are designed as functions of S, K, and T only.\n• For example, η = 1/(K√T), γ ≈ (S K)^{1/4} / T^{3/4}, and β ≈ √(S K / T) (up to constant factors).\nTherefore, once we decide system parameters S, K, T, the algorithm automatically sets theoretically valid stepsizes without knowing data distribution or loss landscape in detail.\n13"
+    },
+    {
+      "slide_id": "s14",
+      "title": "Experiments: Datasets and Baselines",
+      "key_points": [
+        "Datasets:",
+        "• EMNIST: an extended handwritten character dataset (digits and letters).",
+        "• CIFAR-10: a natural image classification benchmark.",
+        "Data partitioning: both IID and non-IID scenarios are considered by controlling label distributions across clients.",
+        "Baselines: FedAvg, SCAFFOLD, SCAFFOLD-M and other strong federated optimizers."
+      ],
+      "terms": [
+        "Experiments",
+        "Datasets",
+        "Baselines",
+        "EMNIST",
+        "extended",
+        "handwritten"
+      ],
+      "examples": [],
+      "raw_text": "Experiments: Datasets and Baselines\nDatasets:\n• EMNIST: an extended handwritten character dataset (digits and letters).\n• CIFAR-10: a natural image classification benchmark.\nData partitioning: both IID and non-IID scenarios are considered by controlling label distributions across clients.\nBaselines: FedAvg, SCAFFOLD, SCAFFOLD-M and other strong federated optimizers.\nMetrics: test accuracy versus communication rounds, and robustness to different learning rate settings.\n14"
+    },
+    {
+      "slide_id": "s15",
+      "title": "Experimental Results (I): Convergence and Accuracy",
+      "key_points": [
+        "On EMNIST:",
+        "• Under IID partitioning, PAdaMFed and PAdaMFed-VR reach high accuracy faster than FedAvg, SCAFFOLD, and SCAFFOLD-M.",
+        "• Under non-IID partitioning, their advantage becomes even more pronounced, highlighting stability under heterogeneity.",
+        "On CIFAR-10: similar trends are observed:",
+        "• For a fixed number of communication rounds, PAdaMFed-style methods consistently achieve higher test accuracy."
+      ],
+      "terms": [
+        "Experimental",
+        "Results",
+        "Convergence",
+        "Accuracy",
+        "EMNIST",
+        "Under"
+      ],
+      "examples": [],
+      "raw_text": "Experimental Results (I): Convergence and Accuracy\nOn EMNIST:\n• Under IID partitioning, PAdaMFed and PAdaMFed-VR reach high accuracy faster than FedAvg, SCAFFOLD, and SCAFFOLD-M.\n• Under non-IID partitioning, their advantage becomes even more pronounced, highlighting stability under heterogeneity.\nOn CIFAR-10: similar trends are observed:\n• For a fixed number of communication rounds, PAdaMFed-style methods consistently achieve higher test accuracy.\nOverall: the methods are competitive or superior without requiring extra manual tuning effort.\n15"
+    },
+    {
+      "slide_id": "s16",
+      "title": "Experimental Results (II): Robustness to Learning Rates",
+      "key_points": [
+        "The authors systematically vary learning rates on EMNIST, for example from 3×10⁻³ up to 10⁻¹.",
+        "Findings:",
+        "• Under IID data, PAdaMFed keeps test accuracy above about 0.8 across this wide range of learning rates.",
+        "• Under non-IID data, accuracy mostly stays above about 0.7 over the same range.",
+        "In contrast, FedAvg, SCAFFOLD, and SCAFFOLD-M work well only in a much narrower range of learning rates."
+      ],
+      "terms": [
+        "Experimental",
+        "Results",
+        "Robustness",
+        "Learning",
+        "Rates",
+        "authors"
+      ],
+      "examples": [
+        "The authors systematically vary learning rates on EMNIST, for example from 3×10⁻³ up to 10⁻¹."
+      ],
+      "raw_text": "Experimental Results (II): Robustness to Learning Rates\nThe authors systematically vary learning rates on EMNIST, for example from 3×10⁻³ up to 10⁻¹.\nFindings:\n• Under IID data, PAdaMFed keeps test accuracy above about 0.8 across this wide range of learning rates.\n• Under non-IID data, accuracy mostly stays above about 0.7 over the same range.\nIn contrast, FedAvg, SCAFFOLD, and SCAFFOLD-M work well only in a much narrower range of learning rates.\nConclusion: PAdaMFed is much more “plug-and-play” in practice, requiring less delicate tuning.\n16"
+    },
+    {
+      "slide_id": "s17",
+      "title": "Conclusion and Future Work",
+      "key_points": [
+        "Summary:",
+        "• PAdaMFed and PAdaMFed-VR provide nonconvex FL algorithms that are problem-parameter-free in theory and practice.",
+        "• They remove bounded-heterogeneity assumptions while achieving near-optimal convergence and communication complexity.",
+        "• Empirical results on EMNIST and CIFAR-10 show faster convergence, better final accuracy, and stronger learning-rate robustness than several baselines.",
+        "Future directions:"
+      ],
+      "terms": [
+        "Conclusion",
+        "Future",
+        "Work",
+        "Summary",
+        "PAdaMFed",
+        "PAdaMFed-VR"
+      ],
+      "examples": [],
+      "raw_text": "Conclusion and Future Work\nSummary:\n• PAdaMFed and PAdaMFed-VR provide nonconvex FL algorithms that are problem-parameter-free in theory and practice.\n• They remove bounded-heterogeneity assumptions while achieving near-optimal convergence and communication complexity.\n• Empirical results on EMNIST and CIFAR-10 show faster convergence, better final accuracy, and stronger learning-rate robustness than several baselines.\nFuture directions:\n• Extend the framework to differential privacy, personalized FL, and multi-task FL.\n• Design parameter-free algorithms that better align with real-world constraints such as asynchrony and unreliable clients.\n17"
+    },
+    {
+      "slide_id": "s18",
+      "title": "References",
+      "key_points": [
+        "W. Yan, K. Zhang, X. Wang, X. Cao, “Problem-Parameter-Free Federated Learning”, ICLR 2025.",
+        "B. McMahan et al., “Communication-Efficient Learning of Deep Networks from Decentralized Data”, AISTATS 2017 (FedAvg).",
+        "S. P. Karimireddy et al., “Scaffold: Stochastic Controlled Averaging for Federated Learning”, ICML 2020.",
+        "Z. Cheng et al., “Momentum Benefits Non-IID Federated Learning Simply and Provably”, ICLR 2024 (SCAFFOLD-M).",
+        "X. Wu et al., “Faster Adaptive Federated Learning”, AAAI 2023 (FAFED)."
+      ],
+      "terms": [
+        "References",
+        "Zhang",
+        "Wang",
+        "Federated",
+        "Learning”",
+        "ICLR"
+      ],
+      "examples": [],
+      "raw_text": "References\nW. Yan, K. Zhang, X. Wang, X. Cao, “Problem-Parameter-Free Federated Learning”, ICLR 2025.\nB. McMahan et al., “Communication-Efficient Learning of Deep Networks from Decentralized Data”, AISTATS 2017 (FedAvg).\nS. P. Karimireddy et al., “Scaffold: Stochastic Controlled Averaging for Federated Learning”, ICML 2020.\nZ. Cheng et al., “Momentum Benefits Non-IID Federated Learning Simply and Provably”, ICLR 2024 (SCAFFOLD-M).\nX. Wu et al., “Faster Adaptive Federated Learning”, AAAI 2023 (FAFED).\n18"
+    },
+    {
+      "slide_id": "s19",
+      "title": "Q & A",
+      "key_points": [],
+      "terms": [],
+      "examples": [],
+      "raw_text": "Q & A"
+    },
+    {
+      "slide_id": "s20",
+      "title": "Thank you for listenning!",
+      "key_points": [],
+      "terms": [
+        "Thank",
+        "listenning!"
+      ],
+      "examples": [],
+      "raw_text": "Thank you for listenning!"
+    }
+  ]
+}
